@@ -1,0 +1,143 @@
+{
+  "title": "Fj\u00e4rrstyrning",
+  "tab": {
+    "install": "Installera",
+    "uninstall": "Avinstallera",
+    "manualLaunch": "Manuell launch",
+    "serviceControl": "Tj\u00e4nststyrning",
+    "reset": "\u00c5terst\u00e4ll",
+    "closeDayJournal": "St\u00e4ng dagsjournal",
+    "downloadFile": "Ladda ner fil",
+    "ism": "ISM",
+    "installToken": "Installationstoken"
+  },
+  "target": {
+    "label": "M\u00e5larbetsstationer",
+    "all": "Alla",
+    "selected": "{{count}} valda",
+    "search": "S\u00f6k arbetsstationer...",
+    "selectAll": "V\u00e4lj alla ({{count}})",
+    "noMatch": "Inga arbetsstationer matchar \u201c{{query}}\u201d"
+  },
+  "install": {
+    "receiverInfo": "Receiver kan inte fj\u00e4rrinstalleras. Anv\u00e4nd Install Script Maker (ISM)-fliken f\u00f6r att generera ett installationsskript f\u00f6r nya Receivers.",
+    "csaNote": "CSA och WPF Client \u00e4r \u00f6msesidigt uteslutande. POS Server exkluderas n\u00e4r CSA \u00e4r vald.",
+    "runtimeId": "Runtime-ID",
+    "loadingVersions": "Laddar versioner...",
+    "noVersions": "Inga lanserade versioner tillg\u00e4ngliga",
+    "confirmTitle": "Installera {{product}}",
+    "confirmMessage": "Installera {{product}} {{version}} p\u00e5 {{count}} arbetsstation(er)?",
+    "confirmDetail": "Runtime: {{runtime}}"
+  },
+  "uninstall": {
+    "legacyToggle": "\u00c4ldre avinstallation",
+    "legacyInfo": "\u00c4ldre l\u00e4ge avinstallerar alla produkter utan produktval.",
+    "manualClient": "Manuell klient",
+    "labelPlaceholder": "t.ex. Heads Testmilj\u00f6",
+    "confirmLegacyTitle": "\u00c4ldre avinstallation",
+    "confirmLegacyMessage": "\u00c4ldre avinstallation p\u00e5 {{count}} arbetsstation(er)?",
+    "confirmLegacyDetail": "Alla produkter kommer att tas bort",
+    "confirmTitle": "Avinstallera {{product}}",
+    "confirmMessage": "Avinstallera {{product}} p\u00e5 {{count}} arbetsstation(er)?"
+  },
+  "serviceControl": {
+    "command": "Kommando",
+    "receiverInfo": "Receiver st\u00f6der bara Starta om.",
+    "wpfInfo": "WPF Client st\u00f6der bara Stoppa.",
+    "confirmTitle": "{{command}} {{product}}",
+    "confirmMessage": "{{command}} {{product}} p\u00e5 {{count}} arbetsstation(er)?"
+  },
+  "manualLaunch": {
+    "noVersions": "Inga distribuerade versioner tillg\u00e4ngliga",
+    "confirmTitle": "Manuell launch {{product}}",
+    "confirmMessage": "Starta {{product}} {{version}} p\u00e5 {{count}} arbetsstation(er)?"
+  },
+  "reset": {
+    "warningTitle": "Dagsjournaler m\u00e5ste st\u00e4ngas f\u00f6rst",
+    "warningMessage": "K\u00f6r St\u00e4ng dagsjournal innan \u00e5terst\u00e4llning f\u00f6r att undvika dataforlust.",
+    "confirmTitle": "\u00c5terst\u00e4ll",
+    "confirmMessage": "\u00c5terst\u00e4ll {{count}} arbetsstation(er)?",
+    "confirmDetail": "S\u00e4kerst\u00e4ll att dagsjournaler har st\u00e4ngts innan du forts\u00e4tter."
+  },
+  "closeDayJournal": {
+    "credentialsHeader": "POS Server-autentisering",
+    "posUser": "POS-anv\u00e4ndare",
+    "posPassword": "POS-l\u00f6senord",
+    "confirmTitle": "St\u00e4ng dagsjournal",
+    "confirmMessage": "St\u00e4ng dagsjournal p\u00e5 {{count}} arbetsstation(er)?",
+    "confirmDetail": "POS-anv\u00e4ndare: {{user}}"
+  },
+  "ism": {
+    "targetUrl": "M\u00e5l-Broadcaster-URL",
+    "installToken": "Installationstoken",
+    "preInstall": "F\u00f6rinstallationsalternativ",
+    "software": "Programvara att installera",
+    "oneLiner": "PowerShell",
+    "uninstallExisting": "Avinstallera befintlig programvara f\u00f6rst",
+    "legacyUninstall": "Inkludera \u00e4ldre (SUS/RA) avinstallation",
+    "installReceiver": "Installera Receiver",
+    "installWpf": "Installera WpfClient",
+    "installCsa": "Installera CustomerServiceApplication",
+    "installPosServer": "Installera PosServer",
+    "usePosServer": "Anv\u00e4nd POS Server",
+    "useArchiveServer": "Anv\u00e4nd Archive Server",
+    "createDump": "Skapa dump",
+    "manualClient": "Manuell klient",
+    "label": "Etikett",
+    "collation": "Sortering",
+    "dbImageSize": "Databasbildstorlek (MB)",
+    "dbLogSize": "Databasloggstorlek (MB)",
+    "hostedInfo": "Hostad Broadcaster uppt\u00e4ckt \u2014 skriptet inkluderar IP-diagnostik",
+    "generateScript": "Generera installationsskript",
+    "checkingDeps": "Kontrollerar beroenden...",
+    "depsOk": "Beroenden OK ({{policy}}-policy)",
+    "target": "M\u00e5l:",
+    "currentConnection": "(nuvarande anslutning)",
+    "versionOptional": "Version (valfritt)",
+    "versionPlaceholder": "L\u00e4mna tomt f\u00f6r senaste",
+    "wpfClientOptions": "WPF Client-alternativ",
+    "posServerOptions": "POS Server-alternativ",
+    "expires": "Utg\u00e5r: {{date}}",
+    "enterToken": "Ange eller generera en installationstoken"
+  },
+  "shared": {
+    "wpfClientOptions": "WPF Client-alternativ",
+    "posServerOptions": "POS Server-alternativ",
+    "usePosServer": "Anv\u00e4nd POS Server",
+    "useArchiveServer": "Anv\u00e4nd Archive Server",
+    "manualClient": "Manuell klient",
+    "targetBroadcasterUrl": "M\u00e5l-Broadcaster-URL",
+    "installToken": "Installationstoken",
+    "label": "Etikett",
+    "createDump": "Skapa dump",
+    "collation": "Sortering",
+    "dbImageSize": "Databasbildstorlek (MB)",
+    "dbLogSize": "Databasloggstorlek (MB)"
+  },
+  "progress": {
+    "status": "Status",
+    "workstation": "Arbetsstation",
+    "details": "Detaljer"
+  },
+  "installToken": {
+    "title": "Installationstoken",
+    "description": "Generera en installationstoken för autentisering av nya Receiver-installationer. Tokens löper ut efter 7 dagar som standard.",
+    "generateToken": "Generera token",
+    "token": "Token",
+    "copyToClipboard": "Kopiera till urklipp",
+    "expires": "Löper ut",
+    "noToken": "Ingen token returnerades från servern",
+    "error": "Kunde inte generera token"
+  },
+  "downloadFile": {
+    "workstationId": "Arbetsstation-ID",
+    "workstationPlaceholder": "Ange arbetsstation-ID",
+    "filePath": "Filsökväg",
+    "pathMustBeUnder": "Måste vara under {{prefix}}",
+    "pathMustStartWith": "Sökvägen måste börja med {{prefix}}",
+    "fetchFile": "Hämta fil",
+    "fileContent": "Filinnehåll",
+    "savedTo": "Sparad till {{path}}",
+    "notFound": "Filen hittades inte eller tomt svar"
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "title": "Remote",
+  "tab": {
+    "install": "Install",
+    "uninstall": "Uninstall",
+    "manualLaunch": "Manual Launch",
+    "serviceControl": "Service Control",
+    "reset": "Reset",
+    "closeDayJournal": "Close Day Journal",
+    "downloadFile": "Download File",
+    "ism": "ISM",
+    "installToken": "Install Token"
+  },
+  "target": {
+    "label": "Target Workstations",
+    "all": "All",
+    "selected": "{{count}} selected",
+    "search": "Search workstations...",
+    "selectAll": "Select all ({{count}})",
+    "noMatch": "No workstations match \u201c{{query}}\u201d"
+  },
+  "install": {
+    "receiverInfo": "Receiver cannot be remote-installed. Use the Install Script Maker (ISM) tab to generate an install script for new receivers.",
+    "csaNote": "CSA and WPF Client are mutually exclusive. POS Server is excluded when CSA is selected.",
+    "runtimeId": "Runtime ID",
+    "loadingVersions": "Loading versions...",
+    "noVersions": "No launched versions available",
+    "confirmTitle": "Install {{product}}",
+    "confirmMessage": "Install {{product}} {{version}} on {{count}} workstation(s)?",
+    "confirmDetail": "Runtime: {{runtime}}"
+  },
+  "uninstall": {
+    "legacyToggle": "Legacy uninstall",
+    "legacyInfo": "Legacy mode uninstalls all products without product selection.",
+    "manualClient": "Manual client",
+    "labelPlaceholder": "e.g. Heads Testmiljo",
+    "confirmLegacyTitle": "Legacy Uninstall",
+    "confirmLegacyMessage": "Legacy uninstall on {{count}} workstation(s)?",
+    "confirmLegacyDetail": "All products will be removed",
+    "confirmTitle": "Uninstall {{product}}",
+    "confirmMessage": "Uninstall {{product}} on {{count}} workstation(s)?"
+  },
+  "serviceControl": {
+    "command": "Command",
+    "receiverInfo": "Receiver only supports Restart.",
+    "wpfInfo": "WPF Client only supports Stop.",
+    "confirmTitle": "{{command}} {{product}}",
+    "confirmMessage": "{{command}} {{product}} on {{count}} workstation(s)?"
+  },
+  "manualLaunch": {
+    "noVersions": "No deployed versions available",
+    "confirmTitle": "Manual Launch {{product}}",
+    "confirmMessage": "Launch {{product}} {{version}} on {{count}} workstation(s)?"
+  },
+  "reset": {
+    "warningTitle": "Day journals must be closed first",
+    "warningMessage": "Run Close Day Journal before resetting to avoid data loss.",
+    "confirmTitle": "Reset",
+    "confirmMessage": "Reset {{count}} workstation(s)?",
+    "confirmDetail": "Ensure day journals have been closed before proceeding."
+  },
+  "closeDayJournal": {
+    "credentialsHeader": "POS Server Credentials",
+    "posUser": "POS User",
+    "posPassword": "POS Password",
+    "confirmTitle": "Close Day Journal",
+    "confirmMessage": "Close day journal on {{count}} workstation(s)?",
+    "confirmDetail": "POS user: {{user}}"
+  },
+  "ism": {
+    "targetUrl": "Target Broadcaster URL",
+    "installToken": "Install Token",
+    "preInstall": "Pre-install Options",
+    "software": "Software to Install",
+    "oneLiner": "PowerShell",
+    "uninstallExisting": "Uninstall existing software first",
+    "legacyUninstall": "Include legacy (SUS/RA) uninstall",
+    "installReceiver": "Install Receiver",
+    "installWpf": "Install WpfClient",
+    "installCsa": "Install CustomerServiceApplication",
+    "installPosServer": "Install PosServer",
+    "usePosServer": "Use POS Server",
+    "useArchiveServer": "Use Archive Server",
+    "createDump": "Create dump",
+    "manualClient": "Manual client",
+    "label": "Label",
+    "collation": "Collation",
+    "dbImageSize": "Database Image Size (MB)",
+    "dbLogSize": "Database Log Size (MB)",
+    "hostedInfo": "Hosted Broadcaster detected \u2014 script includes IP diagnostic steps",
+    "generateScript": "Generate Install Script",
+    "checkingDeps": "Checking dependencies...",
+    "depsOk": "Dependencies OK ({{policy}} policy)",
+    "target": "Target:",
+    "currentConnection": "(current connection)",
+    "versionOptional": "Version (optional)",
+    "versionPlaceholder": "Leave empty for latest",
+    "wpfClientOptions": "WPF Client Options",
+    "posServerOptions": "POS Server Options",
+    "expires": "Expires: {{date}}",
+    "enterToken": "Enter or generate an install token"
+  },
+  "shared": {
+    "wpfClientOptions": "WPF Client Options",
+    "posServerOptions": "POS Server Options",
+    "usePosServer": "Use POS Server",
+    "useArchiveServer": "Use Archive Server",
+    "manualClient": "Manual client",
+    "targetBroadcasterUrl": "Target Broadcaster URL",
+    "installToken": "Install Token",
+    "label": "Label",
+    "createDump": "Create dump",
+    "collation": "Collation",
+    "dbImageSize": "Database Image Size (MB)",
+    "dbLogSize": "Database Log Size (MB)"
+  },
+  "progress": {
+    "status": "Status",
+    "workstation": "Workstation",
+    "details": "Details"
+  },
+  "installToken": {
+    "title": "Install Token",
+    "description": "Generate an install token for authenticating new receiver installations. Tokens expire after 7 days by default.",
+    "generateToken": "Generate Token",
+    "token": "Token",
+    "copyToClipboard": "Copy to clipboard",
+    "expires": "Expires",
+    "noToken": "No token returned from server",
+    "error": "Failed to generate token"
+  },
+  "downloadFile": {
+    "workstationId": "Workstation ID",
+    "workstationPlaceholder": "Enter workstation ID",
+    "filePath": "File Path",
+    "pathMustBeUnder": "Must be under {{prefix}}",
+    "pathMustStartWith": "Path must start with {{prefix}}",
+    "fetchFile": "Fetch File",
+    "fileContent": "File Content",
+    "savedTo": "Saved to {{path}}",
+    "notFound": "File not found or empty response"
+  }
+}

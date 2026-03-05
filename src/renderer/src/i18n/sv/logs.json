@@ -1,0 +1,46 @@
+{
+  "title": "Loggar",
+  "tab": {
+    "broadcaster": "Broadcaster-loggar",
+    "connections": "Anslutningsförsök",
+    "feed": "Feed-meddelanden",
+    "receiverLogs": "Receiver-loggar"
+  },
+  "column": {
+    "logFile": "Loggfil",
+    "time": "Tid",
+    "workstation": "Arbetsstation",
+    "ip": "IP",
+    "token": "Token",
+    "foreignReplacements": "Främmande ersättningar",
+    "received": "Mottagen",
+    "type": "Typ",
+    "message": "Meddelande"
+  },
+  "search": "Sök i logg...",
+  "searchReceiver": "Sök Receivers\u2026",
+  "noMatches": "Inga träffar",
+  "viewLog": "Visa logg",
+  "downloadLog": "Ladda ner logg",
+  "empty": {
+    "logFiles": "Inga loggfiler tillgängliga",
+    "connections": "Inga anslutningsförsök registrerade",
+    "feed": "Inga feed-meddelanden tillgängliga",
+    "receiverLogs": "Inga loggfiler hittades för denna Receiver",
+    "selectReceiver": "Välj en Receiver för att visa dess loggar",
+    "noAccessible": "Inga tillgängliga loggvyer"
+  },
+  "loadingContent": "Laddar logginnehåll...",
+  "error": {
+    "logFiles": "Kunde inte ladda loggfiler",
+    "logContent": "Kunde inte ladda logginnehåll",
+    "connections": "Kunde inte ladda anslutningsförsök",
+    "feed": "Kunde inte ladda feed-meddelanden",
+    "receiverLogs": "Kunde inte ladda Receiver-loggfiler"
+  },
+  "count": {
+    "attempts": "{{count}} försök \u2014 uppdateras var 10:e sekund",
+    "messages": "{{count}} meddelande(n) \u2014 uppdateras var 10:e sekund",
+    "overflow": "1000+ (visar senaste 1000)"
+  }
+}

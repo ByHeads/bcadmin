@@ -1,0 +1,70 @@
+{
+  "title": "Dashboards",
+  "tab": {
+    "updates": "Uppdateringar",
+    "software": "Programvara",
+    "replication": "Replikering"
+  },
+  "updates": {
+    "column": {
+      "workstationId": "Arbetsstation-ID",
+      "kind": "Typ",
+      "status": "Status",
+      "version": "Version",
+      "downloadPct": "Nedladdning %",
+      "lastActive": "Senast aktiv"
+    },
+    "status": {
+      "upToDate": "Uppdaterad",
+      "updating": "Uppdaterar",
+      "offline": "Offline",
+      "downloading": "Laddar ner",
+      "waiting": "V\u00e4ntar"
+    },
+    "error": "Kunde inte ladda uppdateringspanelen",
+    "searchPlaceholder": "S\u00f6k Receivers\u2026"
+  },
+  "software": {
+    "column": {
+      "status": "Status",
+      "kind": "Typ",
+      "workstationId": "Arbetsstation-ID",
+      "lastActive": "Senast aktiv",
+      "receiver": "Receiver",
+      "wpfClient": "WPF Client",
+      "posServer": "POS Server",
+      "csa": "CSA"
+    },
+    "status": {
+      "online": "Online",
+      "offline": "Offline"
+    },
+    "error": "Kunde inte ladda programvarupanelen",
+    "searchPlaceholder": "S\u00f6k Receivers\u2026"
+  },
+  "replication": {
+    "column": {
+      "status": "Status",
+      "connection": "Anslutning",
+      "filter": "Filter",
+      "id": "ID",
+      "lastReceived": "Senast mottagen",
+      "lastActive": "Senast aktiv",
+      "posServer": "POS Server",
+      "replication": "Replikeringsversion",
+      "applicable": "Applicerbara",
+      "nonApplicable": "Ej applicerbara"
+    },
+    "status": {
+      "obsolete": "Obsolete",
+      "awaitInit": "Inv\u00e4ntar init",
+      "blocked": "Blockerad",
+      "awaitUpdate": "Inv\u00e4ntar uppdatering",
+      "upToDate": "Aktuell",
+      "replicating": "Replikerar"
+    },
+    "error": "Kunde inte ladda replikeringspanelen",
+    "searchPlaceholder": "S\u00f6k Receivers\u2026",
+    "footer": "{{count}} Receivers med aktiv replikering \u2014 uppdateras var 5:e sekund"
+  }
+}

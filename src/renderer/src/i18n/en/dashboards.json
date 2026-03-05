@@ -1,0 +1,70 @@
+{
+  "title": "Dashboards",
+  "tab": {
+    "updates": "Updates",
+    "software": "Software",
+    "replication": "Replication"
+  },
+  "updates": {
+    "column": {
+      "workstationId": "Workstation ID",
+      "kind": "Kind",
+      "status": "Status",
+      "version": "Version",
+      "downloadPct": "Download %",
+      "lastActive": "Last Active"
+    },
+    "status": {
+      "upToDate": "Up to date",
+      "updating": "Updating",
+      "offline": "Offline",
+      "downloading": "Downloading",
+      "waiting": "Waiting"
+    },
+    "error": "Failed to load update dashboard",
+    "searchPlaceholder": "Search receivers\u2026"
+  },
+  "software": {
+    "column": {
+      "status": "Status",
+      "kind": "Kind",
+      "workstationId": "Workstation ID",
+      "lastActive": "Last Active",
+      "receiver": "Receiver",
+      "wpfClient": "WPF Client",
+      "posServer": "POS Server",
+      "csa": "CSA"
+    },
+    "status": {
+      "online": "Online",
+      "offline": "Offline"
+    },
+    "error": "Failed to load software dashboard",
+    "searchPlaceholder": "Search receivers\u2026"
+  },
+  "replication": {
+    "column": {
+      "status": "Status",
+      "connection": "Connection",
+      "filter": "Filter",
+      "id": "ID",
+      "lastReceived": "Last Received",
+      "lastActive": "Last Active",
+      "posServer": "POS Server",
+      "replication": "Replication Version",
+      "applicable": "Applicable",
+      "nonApplicable": "Non-Applicable"
+    },
+    "status": {
+      "obsolete": "Obsolete",
+      "awaitInit": "Await init",
+      "blocked": "Blocked",
+      "awaitUpdate": "Await update",
+      "upToDate": "Up to date",
+      "replicating": "Replicating"
+    },
+    "error": "Failed to load replication dashboard",
+    "searchPlaceholder": "Search receivers\u2026",
+    "footer": "{{count}} receivers with active replication \u2014 refreshing every 5s"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "overview": "Overview",
+  "section": {
+    "monitoring": "MONITORING",
+    "dashboards": "DASHBOARDS",
+    "operations": "OPERATIONS",
+    "tools": "TOOLS"
+  },
+  "receivers": "Receivers",
+  "dashboardUpdates": "Updates",
+  "dashboardSoftware": "Software",
+  "dashboardReplication": "Replication",
+  "notifications": "Notifications",
+  "remote": "Remote",
+  "ism": "ISM",
+  "installToken": "Install Token",
+  "deployment": "Client Software",
+  "replication": "Replication",
+  "terminals": "Terminals",
+  "logs": "Logs",
+  "settings": "System",
+  "configuration": "Configuration",
+  "thisComputer": "This computer",
+  "docs": "Docs",
+  "connections": "Broadcasters",
+  "logout": "Logout",
+  "rename": "Rename",
+  "httpWarning": "Unencrypted HTTP \u2014 credentials sent in plaintext",
+  "copyUrl": "Copy URL",
+  "back": "Back",
+  "openInBrowser": "Open in browser",
+  "language": "Language"
+}

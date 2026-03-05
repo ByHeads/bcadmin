@@ -1,0 +1,82 @@
+{
+  "title": "Klientprogramvara",
+  "tab": {
+    "versions": "Versioner",
+    "deployVersions": "Distribuera versioner",
+    "launchSchedule": "Startschema",
+    "retailVersions": "Retail-versioner",
+    "downloadLimiter": "Nedladdningsbegränsare"
+  },
+  "files": {
+    "column": {
+      "version": "Version",
+      "latestBuild": "Senaste bygge",
+      "files": "Filer"
+    },
+    "viewFiles": "Visa filer",
+    "filesTitle": "{{product}} v{{version}} \u2014 Filer",
+    "error": "Kunde inte ladda distributionsfiler",
+    "cleanupTitle": "Ta bort version",
+    "deleteMessage": "Ta bort alla {{product}}-filer för version {{version}}? Versionen finns inte i startschemat.",
+    "deleteDisabled": "Kan inte ta bort — versionen finns i startschemat"
+  },
+  "deployVersions": {
+    "column": {
+      "version": "Version",
+      "latestBuild": "Senaste bygge",
+      "files": "Filer"
+    },
+    "deploy": "Distribuera",
+    "viewFiles": "Visa filer",
+    "filesTitle": "{{product}} v{{version}} \u2014 Filer",
+    "error": "Kunde inte ladda fjärrfiler",
+    "deployError": "Distribution misslyckades",
+    "confirmTitle": "Distribuera version",
+    "confirmMessage": "Distribuera {{product}} version {{version}} till broadcastern?",
+    "confirmDetail": "Detta laddar ner och distribuerar de valda versionsfilerna."
+  },
+  "launchSchedule": {
+    "column": {
+      "product": "Produkt",
+      "version": "Version",
+      "runtime": "Körmiljö",
+      "scheduled": "Schemalagd"
+    },
+    "currentVersions": "Nuvarande versioner",
+    "activeVersions": "Aktiva versioner",
+    "scheduledLaunches": "Schemalagda starter",
+    "addSchedule": "Lägg till schema",
+    "addLaunchSchedule": "Lägg till startschema",
+    "selectVersion": "Välj version...",
+    "dateTimeLabel": "Datum/Tid",
+    "dateTimeEmpty": "(tomt = nu)",
+    "error": "Kunde inte ladda startschema",
+    "addError": "Kunde inte lägga till schema",
+    "deleteTitle": "Ta bort schema",
+    "deleteMessage": "Ta bort startschema för {{product}} v{{version}}?",
+    "deleteDetail": "Körmiljö: {{runtime}}, Schemalagd: {{dateTime}}",
+    "deleteError": "Kunde inte ta bort schema"
+  },
+  "retailVersions": {
+    "description": "Retail-byggtaggar spårar vilka programvaruversioner som betraktas som retail-byggen på byggdelningen.",
+    "versionTag": "Versionstagg",
+    "versionTagHint": "(XX.X till XX.XXX eller XX.X.XXXX.N+, prefix @ för att kringgå)",
+    "tagPlaceholder": "t.ex. 23.1 eller 23.1.1234.1",
+    "invalidFormat": "Ogiltigt format. Förväntat: XX.X till XX.XXX eller XX.X.XXXX.N+ (prefix med @ för att kringgå)",
+    "alreadyExists": "Denna versionstagg finns redan",
+    "error": "Kunde inte ladda retail-versioner",
+    "updateError": "Kunde inte uppdatera retail-versioner",
+    "empty": "Inga retail-byggtaggar konfigurerade",
+    "removeTitle": "Ta bort retail-versionstagg",
+    "removeMessage": "Ta bort retail-byggtagg \"{{tag}}\"?",
+    "removeDetail": "Denna version kommer inte längre att spåras som ett retail-bygge."
+  },
+  "downloadLimiter": {
+    "noAccess": "Ingen åtkomst till nedladdningsbegränsare",
+    "seats": "Platser",
+    "available": "Tillgängliga",
+    "throttled": "Begränsad",
+    "activeDownloads": "Aktiva nedladdningar",
+    "noDownloads": "Inga aktiva nedladdningar"
+  }
+}

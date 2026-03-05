@@ -1,0 +1,33 @@
+{
+  "overview": "\u00d6versikt",
+  "section": {
+    "monitoring": "\u00d6VERVAKNING",
+    "dashboards": "DASHBOARDS",
+    "operations": "OPERATIONER",
+    "tools": "VERKTYG"
+  },
+  "receivers": "Receivers",
+  "dashboardUpdates": "Uppdateringar",
+  "dashboardSoftware": "Programvara",
+  "dashboardReplication": "Replikering",
+  "notifications": "Notiser",
+  "remote": "Fj\u00e4rrstyrning",
+  "ism": "ISM",
+  "installToken": "Installationstoken",
+  "deployment": "Klientprogramvara",
+  "replication": "Replikering",
+  "terminals": "Terminaler",
+  "logs": "Loggar",
+  "settings": "System",
+  "configuration": "Konfiguration",
+  "thisComputer": "Denna dator",
+  "docs": "Dokumentation",
+  "connections": "Broadcasters",
+  "logout": "Logga ut",
+  "rename": "Byt namn",
+  "httpWarning": "Okrypterad HTTP \u2014 autentisering skickas i klartext",
+  "copyUrl": "Kopiera URL",
+  "back": "Tillbaka",
+  "openInBrowser": "Öppna i webbläsare",
+  "language": "Spr\u00e5k"
+}

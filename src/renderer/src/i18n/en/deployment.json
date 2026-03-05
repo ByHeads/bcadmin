@@ -1,0 +1,82 @@
+{
+  "title": "Client Software",
+  "tab": {
+    "versions": "Versions",
+    "deployVersions": "Deploy Versions",
+    "launchSchedule": "Launch Schedule",
+    "retailVersions": "Retail Versions",
+    "downloadLimiter": "Download Limiter"
+  },
+  "files": {
+    "column": {
+      "version": "Version",
+      "latestBuild": "Latest Build",
+      "files": "Files"
+    },
+    "viewFiles": "View files",
+    "filesTitle": "{{product}} v{{version}} \u2014 Files",
+    "error": "Failed to load deployment files",
+    "cleanupTitle": "Delete Version",
+    "deleteMessage": "Delete all {{product}} files for version {{version}}? This version is not in the launch schedule.",
+    "deleteDisabled": "Cannot delete — version is in the launch schedule"
+  },
+  "deployVersions": {
+    "column": {
+      "version": "Version",
+      "latestBuild": "Latest Build",
+      "files": "Files"
+    },
+    "deploy": "Deploy",
+    "viewFiles": "View files",
+    "filesTitle": "{{product}} v{{version}} \u2014 Files",
+    "error": "Failed to load remote files",
+    "deployError": "Deploy failed",
+    "confirmTitle": "Deploy Version",
+    "confirmMessage": "Deploy {{product}} version {{version}} to the broadcaster?",
+    "confirmDetail": "This will download and deploy the selected version files."
+  },
+  "launchSchedule": {
+    "column": {
+      "product": "Product",
+      "version": "Version",
+      "runtime": "Runtime",
+      "scheduled": "Scheduled"
+    },
+    "currentVersions": "Current Versions",
+    "activeVersions": "Active Versions",
+    "scheduledLaunches": "Scheduled Launches",
+    "addSchedule": "Add Schedule",
+    "addLaunchSchedule": "Add Launch Schedule",
+    "selectVersion": "Select version...",
+    "dateTimeLabel": "Date/Time",
+    "dateTimeEmpty": "(empty = now)",
+    "error": "Failed to load launch schedule",
+    "addError": "Failed to add schedule",
+    "deleteTitle": "Delete Schedule",
+    "deleteMessage": "Delete launch schedule for {{product}} v{{version}}?",
+    "deleteDetail": "Runtime: {{runtime}}, Scheduled: {{dateTime}}",
+    "deleteError": "Failed to delete schedule"
+  },
+  "retailVersions": {
+    "description": "Retail build tags track which software versions are considered retail builds on the build share.",
+    "versionTag": "Version Tag",
+    "versionTagHint": "(XX.X to XX.XXX or XX.X.XXXX.N+, prefix @ to bypass)",
+    "tagPlaceholder": "e.g. 23.1 or 23.1.1234.1",
+    "invalidFormat": "Invalid format. Expected: XX.X to XX.XXX or XX.X.XXXX.N+ (prefix with @ to bypass)",
+    "alreadyExists": "This version tag already exists",
+    "error": "Failed to load retail versions",
+    "updateError": "Failed to update retail versions",
+    "empty": "No retail build tags configured",
+    "removeTitle": "Remove Retail Version Tag",
+    "removeMessage": "Remove retail build tag \"{{tag}}\"?",
+    "removeDetail": "This will no longer track this version as a retail build."
+  },
+  "downloadLimiter": {
+    "noAccess": "No access to Download Limiter resource",
+    "seats": "Seats",
+    "available": "Available",
+    "throttled": "Throttled",
+    "activeDownloads": "Active Downloads",
+    "noDownloads": "No active downloads"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "title": "Logs",
+  "tab": {
+    "broadcaster": "Broadcaster Logs",
+    "connections": "Connection Attempts",
+    "feed": "Feed Messages",
+    "receiverLogs": "Receiver Logs"
+  },
+  "column": {
+    "logFile": "Log File",
+    "time": "Time",
+    "workstation": "Workstation",
+    "ip": "IP",
+    "token": "Token",
+    "foreignReplacements": "Foreign Replacements",
+    "received": "Received",
+    "type": "Type",
+    "message": "Message"
+  },
+  "search": "Search in log...",
+  "searchReceiver": "Search Receivers\u2026",
+  "noMatches": "No matches",
+  "viewLog": "View log",
+  "downloadLog": "Download log",
+  "empty": {
+    "logFiles": "No log files available",
+    "connections": "No connection attempts recorded",
+    "feed": "No feed messages available",
+    "receiverLogs": "No log files found for this Receiver",
+    "selectReceiver": "Select a Receiver to view its logs",
+    "noAccessible": "No accessible log views"
+  },
+  "loadingContent": "Loading log content...",
+  "error": {
+    "logFiles": "Failed to load log files",
+    "logContent": "Failed to load log content",
+    "connections": "Failed to load connection attempts",
+    "feed": "Failed to load feed messages",
+    "receiverLogs": "Failed to load Receiver log files"
+  },
+  "count": {
+    "attempts": "{{count}} attempt(s) \u2014 refreshing every 10s",
+    "messages": "{{count}} message(s) \u2014 refreshing every 10s",
+    "overflow": "1000+ (showing latest 1000)"
+  }
+}

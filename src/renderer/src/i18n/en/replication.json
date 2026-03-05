@@ -1,0 +1,84 @@
+{
+  "title": "Replication",
+  "tab": {
+    "status": "Status",
+    "details": "Details",
+    "filter": "Filter",
+    "groups": "Groups",
+    "connectionCheck": "Connection Check"
+  },
+  "status": {
+    "column": {
+      "workstationId": "Workstation ID",
+      "lastActive": "Last Active",
+      "connected": "Connected",
+      "replicationVersion": "Replication Version",
+      "awaitsInit": "Awaits Init"
+    },
+    "empty": "No receivers with active replication",
+    "error": "Failed to load replication status",
+    "footer": "{{count}} receiver(s) with active replication \u2014 refreshing every 5s"
+  },
+  "details": {
+    "sequenceStart": "Sequence Start",
+    "sequenceEnd": "Sequence End",
+    "fileCount": "File Count",
+    "maxReplicationFiles": "Max Replication Files",
+    "atLimitWarning": "File count has reached the maximum. Older replication files may be pruned.",
+    "refreshing": "Refreshing every 5s",
+    "noAccess": "No access to replication sequence data",
+    "empty": "No replication sequence data available",
+    "error": "Failed to load replication details"
+  },
+  "filter": {
+    "title": "Replication Filter",
+    "description": "Control which receivers receive replicated data. Choose to replicate to all receivers, none, or a custom selection of workstations and groups.",
+    "modeAll": "All Receivers",
+    "modeNone": "None",
+    "modeCustom": "Custom",
+    "descAll": "Replication data is sent to all connected receivers.",
+    "descNone": "Replication is disabled \u2014 no receivers will receive replicated data.",
+    "descCustom": "Replication data is sent to {{count}} selected recipient(s).",
+    "searchPlaceholder": "Search workstations or groups...",
+    "noOptions": "No workstations or groups available",
+    "noMatchesFound": "No matches found",
+    "group": "group",
+    "workstation": "workstation",
+    "selectedCount": "{{selected}} of {{total}} selected",
+    "saveSuccess": "Filter saved successfully.",
+    "saveError": "Failed to save filter",
+    "noPermission": "You do not have permission to edit the replication filter.",
+    "error": "Failed to load replication filter"
+  },
+  "groups": {
+    "title": "Workstation Groups",
+    "description": "Manage groups of workstations for use in replication filters and other operations.",
+    "newGroupPlaceholder": "New group name...",
+    "createGroup": "Create Group",
+    "createError": "Failed to create group",
+    "empty": "No workstation groups configured",
+    "memberCount": "{{count}} member(s)",
+    "addMemberPlaceholder": "Add workstation ID...",
+    "noMembers": "No members in this group",
+    "deleteGroup": "Delete group",
+    "removeMember": "Remove member",
+    "deleteTitle": "Delete Group",
+    "deleteMessage": "Delete group \"{{name}}\"? This will remove the group and its member list. Members themselves are not affected.",
+    "deleteError": "Failed to delete group",
+    "updateError": "Failed to update group members",
+    "error": "Failed to load workstation groups",
+    "noPermission": "You do not have permission to edit workstation groups."
+  },
+  "connectionCheck": {
+    "title": "Heads Retail Connection",
+    "description": "Test the connection to the Heads retail database used for replication.",
+    "checkButton": "Check Connection",
+    "requestFailed": "Request failed",
+    "error": "Failed to check connection",
+    "statusConnected": "Connected",
+    "statusNotConfigured": "Not Configured",
+    "statusUnreachable": "Unreachable",
+    "statusUnauthorized": "Unauthorized",
+    "statusInternalError": "Internal Error"
+  }
+}

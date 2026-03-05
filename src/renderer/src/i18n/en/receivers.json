@@ -1,0 +1,99 @@
+{
+  "title": "Receivers",
+  "tab": {
+    "connected": "Connected",
+    "all": "All",
+    "software": "Software",
+    "systemInfo": "System Info",
+    "manualClients": "Manual Clients",
+    "report": "Report"
+  },
+  "search": "Search receivers\u2026",
+  "connected": {
+    "column": {
+      "workstationId": "Workstation ID",
+      "lastActive": "Last Active",
+      "connected": "Connected"
+    },
+    "empty": "No receivers connected",
+    "error": "Failed to load receivers",
+    "footer": "{{count}} receiver(s) connected \u2014 refreshing every 5s"
+  },
+  "all": {
+    "column": {
+      "workstationId": "Workstation ID",
+      "lastActive": "Last Active",
+      "connected": "Connected"
+    },
+    "filterAll": "All",
+    "filterConnected": "Connected",
+    "filterDisconnected": "Disconnected",
+    "empty": "No receivers found",
+    "error": "Failed to load receivers",
+    "footer": "{{count}} receiver(s) total \u2014 refreshing every 5s",
+    "forgetTitle": "Forget receiver",
+    "forgetMessage": "Permanently remove '{{id}}' from the receiver log? This cannot be undone.",
+    "forgetButton": "Forget",
+    "forgetReceiver": "Forget receiver"
+  },
+  "software": {
+    "column": {
+      "workstationId": "Workstation ID",
+      "lastActive": "Last Active",
+      "running": "Running",
+      "currentVersion": "Current Version",
+      "deployedVersions": "Deployed Versions",
+      "launchedVersion": "Launched Version"
+    },
+    "empty": "No receivers with this product installed",
+    "error": "Failed to load software data",
+    "footer": "{{count}} receiver(s) with product installed \u2014 refreshing every 5s"
+  },
+  "systemInfo": {
+    "column": {
+      "workstationId": "Workstation ID",
+      "os": "OS",
+      "osVersion": "OS Version",
+      "architecture": "Architecture",
+      "dotNetVersion": ".NET Version"
+    },
+    "empty": "No receivers found",
+    "error": "Failed to load system info",
+    "footer": "{{count}} receiver(s) \u2014 refreshing every 5s"
+  },
+  "manualClients": {
+    "column": {
+      "workstationId": "Workstation ID",
+      "installDir": "Install Directory",
+      "version": "Version",
+      "versionTracked": "Version Tracked"
+    },
+    "empty": "No receivers with external WPF clients",
+    "error": "Failed to load manual clients",
+    "footer": "{{extCount}} external client(s) across {{rcvCount}} receiver(s) \u2014 refreshing every 5s"
+  },
+  "report": {
+    "startDate": "Start Date",
+    "generateReport": "Generate Report",
+    "error": "Failed to generate report",
+    "emptyHint": "Select a start date and generate the report",
+    "totalReceivers": "Total Receivers",
+    "wpfClientNoPos": "WPF Client (no POS)",
+    "wpfClientWithPos": "WPF Client (with POS)",
+    "csa": "CSA"
+  },
+  "detail": {
+    "status": "Status",
+    "logFiles": "Log Files",
+    "installLog": "Install Log",
+    "textFiles": "Text Files",
+    "debug": "Debug",
+    "backToList": "\u2190 Back to file list",
+    "noContent": "No content",
+    "receiverNotFound": "Receiver not found",
+    "noLogFiles": "No log files available",
+    "noInstallLog": "No install log available",
+    "noTextFiles": "No text files available",
+    "noDebugInfo": "No debug info available"
+  }
+}

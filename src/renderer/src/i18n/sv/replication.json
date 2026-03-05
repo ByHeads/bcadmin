@@ -1,0 +1,84 @@
+{
+  "title": "Replikering",
+  "tab": {
+    "status": "Status",
+    "details": "Detaljer",
+    "filter": "Filter",
+    "groups": "Grupper",
+    "connectionCheck": "Anslutningskontroll"
+  },
+  "status": {
+    "column": {
+      "workstationId": "Arbetsstation-ID",
+      "lastActive": "Senast aktiv",
+      "connected": "Ansluten",
+      "replicationVersion": "Replikeringsversion",
+      "awaitsInit": "Väntar init"
+    },
+    "empty": "Inga Receivers med aktiv replikering",
+    "error": "Kunde inte ladda replikeringsstatus",
+    "footer": "{{count}} Receivers med aktiv replikering \u2014 uppdateras var 5:e sekund"
+  },
+  "details": {
+    "sequenceStart": "Sekvenstart",
+    "sequenceEnd": "Sekvensslut",
+    "fileCount": "Antal filer",
+    "maxReplicationFiles": "Max replikeringsfiler",
+    "atLimitWarning": "Antalet filer har nått maxgränsen. Äldre replikeringsfiler kan rensas.",
+    "refreshing": "Uppdateras var 5:e sekund",
+    "noAccess": "Ingen åtkomst till replikeringssekvensdata",
+    "empty": "Ingen replikeringssekvensdata tillgänglig",
+    "error": "Kunde inte ladda replikeringsdetaljer"
+  },
+  "filter": {
+    "title": "Replikeringsfilter",
+    "description": "Styr vilka Receivers som får replikerad data. Välj att replikera till alla Receivers, ingen, eller ett anpassat urval av arbetsstationer och grupper.",
+    "modeAll": "Alla Receivers",
+    "modeNone": "Ingen",
+    "modeCustom": "Anpassad",
+    "descAll": "Replikeringsdata skickas till alla anslutna Receivers.",
+    "descNone": "Replikering är inaktiverad \u2014 inga Receivers kommer att få replikerad data.",
+    "descCustom": "Replikeringsdata skickas till {{count}} valda Receivers.",
+    "searchPlaceholder": "Sök arbetsstationer eller grupper...",
+    "noOptions": "Inga arbetsstationer eller grupper tillgängliga",
+    "noMatchesFound": "Inga träffar",
+    "group": "grupp",
+    "workstation": "arbetsstation",
+    "selectedCount": "{{selected}} av {{total}} valda",
+    "saveSuccess": "Filter sparat.",
+    "saveError": "Kunde inte spara filter",
+    "noPermission": "Du har inte behörighet att redigera replikeringsfiltret.",
+    "error": "Kunde inte ladda replikeringsfilter"
+  },
+  "groups": {
+    "title": "Arbetsstationsgrupper",
+    "description": "Hantera grupper av arbetsstationer för användning i replikeringsfilter och andra operationer.",
+    "newGroupPlaceholder": "Nytt gruppnamn...",
+    "createGroup": "Skapa grupp",
+    "createError": "Kunde inte skapa grupp",
+    "empty": "Inga arbetsstationsgrupper konfigurerade",
+    "memberCount": "{{count}} medlem(mar)",
+    "addMemberPlaceholder": "Lägg till arbetsstation-ID...",
+    "noMembers": "Inga medlemmar i denna grupp",
+    "deleteGroup": "Ta bort grupp",
+    "removeMember": "Ta bort medlem",
+    "deleteTitle": "Ta bort grupp",
+    "deleteMessage": "Ta bort grupp \"{{name}}\"? Gruppen och dess medlemslista tas bort. Medlemmarna själva påverkas inte.",
+    "deleteError": "Kunde inte ta bort grupp",
+    "updateError": "Kunde inte uppdatera gruppmedlemmar",
+    "error": "Kunde inte ladda arbetsstationsgrupper",
+    "noPermission": "Du har inte behörighet att redigera arbetsstationsgrupper."
+  },
+  "connectionCheck": {
+    "title": "Heads Retail-anslutning",
+    "description": "Testa anslutningen till Heads retail-databasen som används för replikering.",
+    "checkButton": "Kontrollera anslutning",
+    "requestFailed": "Förfrågan misslyckades",
+    "error": "Kunde inte kontrollera anslutning",
+    "statusConnected": "Ansluten",
+    "statusNotConfigured": "Ej konfigurerad",
+    "statusUnreachable": "Onåbar",
+    "statusUnauthorized": "Obehörig",
+    "statusInternalError": "Internt fel"
+  }
+}

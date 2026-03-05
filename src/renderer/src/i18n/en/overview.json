@@ -1,0 +1,19 @@
+{
+  "title": "Overview",
+  "card": {
+    "broadcaster": "Broadcaster",
+    "hostname": "Hostname",
+    "publicIp": "Public IP",
+    "version": "Version",
+    "availableUpdate": "Available Update",
+    "connectedReceivers": "Connected Receivers",
+    "notifications": "Notifications",
+    "replication": "Replication"
+  },
+  "value": {
+    "upToDate": "Up to date",
+    "configured": "Configured",
+    "notConfigured": "Not configured"
+  },
+  "error": "Failed to load overview"
+}

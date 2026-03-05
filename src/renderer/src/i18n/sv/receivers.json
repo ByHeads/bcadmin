@@ -1,0 +1,99 @@
+{
+  "title": "Receivers",
+  "tab": {
+    "connected": "Anslutna",
+    "all": "Alla",
+    "software": "Programvara",
+    "systemInfo": "Systeminfo",
+    "manualClients": "Manuella klienter",
+    "report": "Rapport"
+  },
+  "search": "Sök Receivers\u2026",
+  "connected": {
+    "column": {
+      "workstationId": "Arbetsstation-ID",
+      "lastActive": "Senast aktiv",
+      "connected": "Ansluten"
+    },
+    "empty": "Inga Receivers anslutna",
+    "error": "Kunde inte ladda Receivers",
+    "footer": "{{count}} Receivers anslutna \u2014 uppdateras var 5:e sekund"
+  },
+  "all": {
+    "column": {
+      "workstationId": "Arbetsstation-ID",
+      "lastActive": "Senast aktiv",
+      "connected": "Ansluten"
+    },
+    "filterAll": "Alla",
+    "filterConnected": "Anslutna",
+    "filterDisconnected": "Frånkopplade",
+    "empty": "Inga Receivers hittades",
+    "error": "Kunde inte ladda Receivers",
+    "footer": "{{count}} Receivers totalt \u2014 uppdateras var 5:e sekund",
+    "forgetTitle": "Glöm Receiver",
+    "forgetMessage": "Ta bort '{{id}}' permanent från Receiver-loggen? Detta kan inte ångras.",
+    "forgetButton": "Glöm",
+    "forgetReceiver": "Glöm Receiver"
+  },
+  "software": {
+    "column": {
+      "workstationId": "Arbetsstation-ID",
+      "lastActive": "Senast aktiv",
+      "running": "Körs",
+      "currentVersion": "Nuvarande version",
+      "deployedVersions": "Distribuerade versioner",
+      "launchedVersion": "Startad version"
+    },
+    "empty": "Inga Receivers med denna produkt installerad",
+    "error": "Kunde inte ladda programvarudata",
+    "footer": "{{count}} Receivers med produkt installerad \u2014 uppdateras var 5:e sekund"
+  },
+  "systemInfo": {
+    "column": {
+      "workstationId": "Arbetsstation-ID",
+      "os": "OS",
+      "osVersion": "OS-version",
+      "architecture": "Arkitektur",
+      "dotNetVersion": ".NET-version"
+    },
+    "empty": "Inga Receivers hittades",
+    "error": "Kunde inte ladda systeminfo",
+    "footer": "{{count}} Receivers \u2014 uppdateras var 5:e sekund"
+  },
+  "manualClients": {
+    "column": {
+      "workstationId": "Arbetsstation-ID",
+      "installDir": "Installationskatalog",
+      "version": "Version",
+      "versionTracked": "Versionsspårad"
+    },
+    "empty": "Inga Receivers med externa WPF-klienter",
+    "error": "Kunde inte ladda manuella klienter",
+    "footer": "{{extCount}} externa klient(er) på {{rcvCount}} Receivers \u2014 uppdateras var 5:e sekund"
+  },
+  "report": {
+    "startDate": "Startdatum",
+    "generateReport": "Generera rapport",
+    "error": "Kunde inte generera rapport",
+    "emptyHint": "Välj ett startdatum och generera rapporten",
+    "totalReceivers": "Totalt Receivers",
+    "wpfClientNoPos": "WPF Client (utan POS)",
+    "wpfClientWithPos": "WPF Client (med POS)",
+    "csa": "CSA"
+  },
+  "detail": {
+    "status": "Status",
+    "logFiles": "Loggfiler",
+    "installLog": "Installationslogg",
+    "textFiles": "Textfiler",
+    "debug": "Felsökning",
+    "backToList": "\u2190 Tillbaka till fillistan",
+    "noContent": "Inget innehåll",
+    "receiverNotFound": "Receiver hittades inte",
+    "noLogFiles": "Inga loggfiler tillgängliga",
+    "noInstallLog": "Ingen installationslogg tillgänglig",
+    "noTextFiles": "Inga textfiler tillgängliga",
+    "noDebugInfo": "Ingen felsökningsinfo tillgänglig"
+  }
+}

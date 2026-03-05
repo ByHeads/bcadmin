@@ -1,0 +1,104 @@
+{
+  "button": {
+    "install": "Install",
+    "uninstall": "Uninstall",
+    "launch": "Launch",
+    "reset": "Reset",
+    "restart": "Restart",
+    "start": "Start",
+    "stop": "Stop",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "dismiss": "Dismiss",
+    "download": "Download",
+    "refresh": "Refresh",
+    "copy": "Copy",
+    "connect": "Connect",
+    "disconnect": "Disconnect",
+    "generate": "Generate",
+    "close": "Close",
+    "change": "Change",
+    "remove": "Remove",
+    "copied": "Copied",
+    "retry": "Retry now",
+    "add": "Add",
+    "delete": "Delete",
+    "fetch": "Fetch",
+    "deploy": "Deploy",
+    "ok": "OK"
+  },
+  "state": {
+    "loading": "Loading...",
+    "saving": "Saving...",
+    "connecting": "Connecting...",
+    "executing": "Executing...",
+    "executingOperation": "Executing operation...",
+    "inProgress": "In progress...",
+    "success": "Success",
+    "failed": "Failed",
+    "copiedUrl": "Copied!",
+    "verifying": "Verifying...",
+    "generating": "Generating...",
+    "dismissing": "Dismissing...",
+    "reconnecting": "Reconnecting...",
+    "deleting": "Deleting...",
+    "adding": "Adding...",
+    "removing": "Removing...",
+    "deploying": "Deploying...",
+    "fetching": "Fetching...",
+    "installing": "Installing...",
+    "checking": "Checking..."
+  },
+  "label": {
+    "product": "Product",
+    "version": "Version",
+    "status": "Status",
+    "workstation": "Workstation",
+    "details": "Details",
+    "url": "URL",
+    "name": "Name",
+    "id": "ID",
+    "apiKey": "API Key",
+    "show": "Show",
+    "all": "All",
+    "posOnly": "POS only",
+    "currentVersion": "Current version:",
+    "filter": "Filter",
+    "runtime": "Runtime",
+    "yes": "Yes",
+    "no": "No",
+    "connected": "Connected",
+    "disconnected": "Disconnected"
+  },
+  "count": {
+    "succeeded": "{{count}} succeeded",
+    "failed": "{{count}} failed"
+  },
+  "table": {
+    "fullScreen": "Full screen",
+    "exitFullScreen": "Exit full screen",
+    "showingUtc": "Showing UTC — click for local time",
+    "showingLocal": "Showing local time — click for UTC",
+    "utc": "UTC",
+    "local": "Local"
+  },
+  "theme": {
+    "switchToDark": "Switch to dark mode",
+    "switchToLight": "Switch to light mode"
+  },
+  "validation": {
+    "required": "Required",
+    "labelRequired": "Label is required for manual client",
+    "labelNoDots": "Label must not contain dots",
+    "labelInvalidChars": "Label contains invalid characters (<>:\"/\\|?*)"
+  },
+  "error": {
+    "generic": "Failed to load data",
+    "unexpected": "An unexpected error occurred"
+  },
+  "errorBoundary": {
+    "title": "Something went wrong",
+    "tryAgain": "Try again"
+  }
+}

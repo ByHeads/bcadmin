@@ -1,0 +1,19 @@
+{
+  "title": "\u00d6versikt",
+  "card": {
+    "broadcaster": "Broadcaster",
+    "hostname": "V\u00e4rdnamn",
+    "publicIp": "Publik IP",
+    "version": "Version",
+    "availableUpdate": "Tillg\u00e4nglig uppdatering",
+    "connectedReceivers": "Anslutna Receivers",
+    "notifications": "Notiser",
+    "replication": "Replikering"
+  },
+  "value": {
+    "upToDate": "Uppdaterad",
+    "configured": "Konfigurerad",
+    "notConfigured": "Ej konfigurerad"
+  },
+  "error": "Kunde inte ladda \u00f6versikt"
+}

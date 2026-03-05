@@ -1,0 +1,17 @@
+{
+  "title": "Terminals",
+  "tab": {
+    "accessToken": "Access Token",
+    "replicationCommands": "Replication Commands",
+    "shell": "Shell"
+  },
+  "debug": "Debug",
+  "loadingCredentials": "Loading credentials...",
+  "terminal": {
+    "copyOutput": "Copy output",
+    "connectedTo": "Connected to {{resource}}",
+    "disconnected": "Disconnected",
+    "typeCommand": "Type a command...",
+    "waitingConnection": "Waiting for connection..."
+  }
+}

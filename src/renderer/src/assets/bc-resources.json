@@ -1,0 +1,700 @@
+{
+  "resources": [
+    {
+      "name": "Broadcaster.Admin.BroadcasterRestart",
+      "methods": [
+        "GET",
+        "PATCH",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Admin.BroadcasterUpdate",
+      "methods": [
+        "GET",
+        "PATCH",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Admin.Config",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Admin.ConnectionAttempt",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Admin.DependencyStatus",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Admin.DependencyUpdate",
+      "methods": [
+        "GET",
+        "PATCH",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Admin.FeedMessage",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Admin.InstallToken",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Admin.Log",
+      "methods": [
+        "GET",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Admin.Log.Ls",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Admin.NotificationLog",
+      "methods": [
+        "GET",
+        "POST",
+        "DELETE",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Admin.PublicIp",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Admin.Receiver",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Admin.ReceiverHeadsTextFile",
+      "methods": [
+        "GET",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Admin.ReceiverHeadsTextFile.List",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Admin.ReceiverInstallLog",
+      "methods": [
+        "GET",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Admin.ReceiverLog",
+      "methods": [
+        "GET",
+        "DELETE",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Admin.ReceiverLogFile",
+      "methods": [
+        "GET",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Admin.ReceiverLogFile.List",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Admin.ReplicationState",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Auth.AccessToken",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Auth.AccessToken.Commands",
+      "methods": [
+        "GET"
+      ]
+    },
+    {
+      "name": "Broadcaster.Debugging.DownloadTester",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Debugging.ReceiverDebug",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Debugging.WorkItem",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Debugging.WorkItemSource",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Debugging.WorkItemTester",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Deployment.Bcman",
+      "methods": [
+        "GET",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Deployment.CustomerServiceApplicationSettings",
+      "methods": [
+        "GET",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Deployment.DownloadLimiterState",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Deployment.File",
+      "methods": [
+        "GET",
+        "DELETE",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Deployment.File.Download",
+      "methods": [
+        "GET",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Deployment.Install",
+      "methods": [
+        "GET",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Deployment.Install.PowerShell",
+      "methods": [
+        "GET",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Deployment.Install.VcRedist",
+      "methods": [
+        "GET",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Deployment.LaunchSchedule",
+      "methods": [
+        "GET",
+        "POST",
+        "DELETE",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Deployment.LaunchSchedule.ActiveVersions",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Deployment.LaunchSchedule.CurrentVersions",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Deployment.ReceiverAppSettings",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Deployment.RemoteFile",
+      "methods": [
+        "GET",
+        "PATCH",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Deployment.RemoteFile.RebuildIndex",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Deployment.RemoteFile.Settings",
+      "methods": [
+        "GET",
+        "PATCH",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Deployment.TestBinary",
+      "methods": [
+        "GET",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Deployment.Uninstall",
+      "methods": [
+        "GET",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Deployment.Uninstall.All",
+      "methods": [
+        "GET",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Deployment.Uninstall.Legacy",
+      "methods": [
+        "GET",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Deployment.WpfClientAppSettings",
+      "methods": [
+        "GET",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Feed",
+      "methods": [
+        "GET"
+      ]
+    },
+    {
+      "name": "Broadcaster.RemoteDeployment.CloseDayJournal",
+      "methods": [
+        "POST"
+      ]
+    },
+    {
+      "name": "Broadcaster.RemoteDeployment.LaunchCommands",
+      "methods": [
+        "GET"
+      ]
+    },
+    {
+      "name": "Broadcaster.RemoteDeployment.ManualLaunch",
+      "methods": [
+        "POST"
+      ]
+    },
+    {
+      "name": "Broadcaster.RemoteDeployment.RemoteControl",
+      "methods": [
+        "POST"
+      ]
+    },
+    {
+      "name": "Broadcaster.RemoteDeployment.RemoteInstall",
+      "methods": [
+        "POST"
+      ]
+    },
+    {
+      "name": "Broadcaster.RemoteDeployment.RemoteNotify",
+      "methods": [
+        "POST"
+      ]
+    },
+    {
+      "name": "Broadcaster.RemoteDeployment.RemoteUninstall",
+      "methods": [
+        "POST"
+      ]
+    },
+    {
+      "name": "Broadcaster.RemoteDeployment.Reset",
+      "methods": [
+        "POST"
+      ]
+    },
+    {
+      "name": "Broadcaster.Replication.CheckRetailConnection",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Replication.ReplicationCommands",
+      "methods": [
+        "GET"
+      ]
+    },
+    {
+      "name": "Broadcaster.Replication.ReplicationFilter",
+      "methods": [
+        "GET",
+        "PATCH",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Replication.ReplicationSequence",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Replication.SoftwareVersionHash",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Replication.WorkstationGroups",
+      "methods": [
+        "GET",
+        "PATCH",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Scripting.PowerShell",
+      "methods": [
+        "GET"
+      ]
+    },
+    {
+      "name": "Broadcaster.Scripting.PowerShellScriptRunner",
+      "methods": [
+        "POST"
+      ]
+    },
+    {
+      "name": "Broadcaster.Scripting.ReceiverKeyValueStore",
+      "methods": [
+        "GET",
+        "PATCH",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Scripting.ReceiverTextFile",
+      "methods": [
+        "GET",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "Broadcaster.Scripting.ReceiverTextFile.List",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "RESTable.Admin.ConditionCache",
+      "methods": [
+        "GET",
+        "DELETE",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "RESTable.Admin.Configuration",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "RESTable.Admin.Console",
+      "methods": [
+        "GET"
+      ]
+    },
+    {
+      "name": "RESTable.Admin.Error",
+      "methods": [
+        "GET",
+        "DELETE",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "RESTable.Admin.ErrorCode",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "RESTable.Admin.PropertyCache",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "RESTable.Admin.Protocol",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "RESTable.Admin.QueryConsole",
+      "methods": [
+        "GET"
+      ]
+    },
+    {
+      "name": "RESTable.Admin.Resource",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "RESTable.Admin.Schema",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "RESTable.Admin.TermCache",
+      "methods": [
+        "GET",
+        "DELETE",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "RESTable.Admin.WebSocket",
+      "methods": [
+        "GET",
+        "DELETE",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "RESTable.Aggregator",
+      "methods": [
+        "GET",
+        "POST",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "RESTable.AvailableResource",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "RESTable.Blank",
+      "methods": [
+        "GET",
+        "POST",
+        "PATCH",
+        "PUT",
+        "DELETE",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "RESTable.Echo",
+      "methods": [
+        "GET",
+        "POST",
+        "PATCH",
+        "PUT",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "RESTable.Metadata",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "RESTable.SetOperations",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "RESTable.Shell",
+      "methods": [
+        "GET"
+      ]
+    },
+    {
+      "name": "RESTable.Time",
+      "methods": [
+        "GET",
+        "REPORT",
+        "HEAD"
+      ]
+    }
+  ],
+  "wildcards": [
+    "Broadcaster.*",
+    "Broadcaster.Admin.*",
+    "Broadcaster.Admin.Log.*",
+    "Broadcaster.Admin.ReceiverHeadsTextFile.*",
+    "Broadcaster.Admin.ReceiverLogFile.*",
+    "Broadcaster.Auth.*",
+    "Broadcaster.Auth.AccessToken.*",
+    "Broadcaster.Debugging.*",
+    "Broadcaster.Deployment.*",
+    "Broadcaster.Deployment.File.*",
+    "Broadcaster.Deployment.Install.*",
+    "Broadcaster.Deployment.LaunchSchedule.*",
+    "Broadcaster.Deployment.RemoteFile.*",
+    "Broadcaster.Deployment.Uninstall.*",
+    "Broadcaster.RemoteDeployment.*",
+    "Broadcaster.Replication.*",
+    "Broadcaster.Scripting.*",
+    "Broadcaster.Scripting.ReceiverTextFile.*",
+    "RESTable.*",
+    "RESTable.Admin.*"
+  ]
+}

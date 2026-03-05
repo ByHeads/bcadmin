@@ -1,0 +1,16 @@
+{
+  "title": "Notifications",
+  "column": {
+    "id": "ID",
+    "timestamp": "Timestamp",
+    "message": "Message"
+  },
+  "empty": "No notifications",
+  "dismissTitle": "Dismiss notification",
+  "dismissMessage": "Dismiss this notification?",
+  "dismissButton": "Dismiss notification",
+  "error": "Failed to load notifications",
+  "errorDismiss": "Failed to dismiss notification",
+  "count": "{{count}} notification(s) \u2014 refreshing every 10s",
+  "countOverflow": "1000+ (showing latest 1000)"
+}

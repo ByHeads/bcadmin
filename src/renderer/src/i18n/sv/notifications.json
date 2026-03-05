@@ -1,0 +1,16 @@
+{
+  "title": "Aviseringar",
+  "column": {
+    "id": "ID",
+    "timestamp": "Tidst\u00e4mpel",
+    "message": "Meddelande"
+  },
+  "empty": "Inga aviseringar",
+  "dismissTitle": "Avf\u00e4rda avisering",
+  "dismissMessage": "Avf\u00e4rda denna avisering?",
+  "dismissButton": "Avf\u00e4rda avisering",
+  "error": "Kunde inte ladda aviseringar",
+  "errorDismiss": "Kunde inte avf\u00e4rda avisering",
+  "count": "{{count}} avisering(ar) \u2014 uppdateras var 10:e sekund",
+  "countOverflow": "1000+ (visar senaste 1000)"
+}

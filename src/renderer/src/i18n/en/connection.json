@@ -1,0 +1,58 @@
+{
+  "title": "Broadcaster Administrator",
+  "section": {
+    "connections": "Broadcasters",
+    "detected": "Detected on this computer"
+  },
+  "form": {
+    "url": "Broadcaster URL",
+    "name": "Name",
+    "apiKey": "API Key",
+    "newApiKey": "New API Key"
+  },
+  "placeholder": {
+    "apiKey": "API key for localhost:8101",
+    "enterApiKey": "Enter new API key",
+    "filter": "Filter...",
+    "urlExample": "Enter target URL or press Enter for current",
+    "nameExample": "e.g. Production Store 5"
+  },
+  "button": {
+    "newConnection": "Add a new Broadcaster",
+    "editConnections": "Edit connections",
+    "doneEditing": "Done editing",
+    "filterConnections": "Filter connections",
+    "compactView": "List view",
+    "expandedView": "Expanded view"
+  },
+  "dialog": {
+    "removeTitle": "Remove connection",
+    "removeMessage": "Remove '{{name}}'? The API key will be permanently deleted."
+  },
+  "reauth": {
+    "title": "Authentication failed",
+    "message": "The API key for '{{name}}' was rejected (401/403). Enter a new API key to reconnect.",
+    "reconnect": "Reconnect",
+    "apiKeyRequired": "API key is required"
+  },
+  "drop": {
+    "message": "Connection lost",
+    "reconnecting": "attempting to reconnect...",
+    "retrying": "retrying automatically every 5s"
+  },
+  "security": {
+    "encryptionUnavailable": "Credential encryption unavailable",
+    "encryptionDetail": "API keys will be stored without encryption."
+  },
+  "thisComputer": "this computer",
+  "runningOnThisComputer": "Running on this computer",
+  "noMatches": "No matches",
+  "bannerText": "The missing app is finally here!",
+  "bannerTexts": [
+    "100% organic",
+    "Contains no palm oil",
+    "Contains sulfites",
+    "Open bar from 18:00",
+    "Keep away from fire"
+  ]
+}

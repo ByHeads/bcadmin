@@ -1,0 +1,104 @@
+{
+  "button": {
+    "install": "Installera",
+    "uninstall": "Avinstallera",
+    "launch": "Starta",
+    "reset": "\u00c5terst\u00e4ll",
+    "restart": "Starta om",
+    "start": "Starta",
+    "stop": "Stoppa",
+    "cancel": "Avbryt",
+    "confirm": "Bekr\u00e4fta",
+    "save": "Spara",
+    "dismiss": "Avf\u00e4rda",
+    "download": "Ladda ner",
+    "refresh": "Uppdatera",
+    "copy": "Kopiera",
+    "connect": "Anslut",
+    "disconnect": "Koppla fr\u00e5n",
+    "generate": "Generera",
+    "close": "St\u00e4ng",
+    "change": "\u00c4ndra",
+    "remove": "Ta bort",
+    "copied": "Kopierat",
+    "retry": "F\u00f6rs\u00f6k igen",
+    "add": "L\u00e4gg till",
+    "delete": "Ta bort",
+    "fetch": "H\u00e4mta",
+    "deploy": "Distribuera",
+    "ok": "OK"
+  },
+  "state": {
+    "loading": "Laddar...",
+    "saving": "Sparar...",
+    "connecting": "Ansluter...",
+    "executing": "K\u00f6r...",
+    "executingOperation": "Utf\u00f6r operation...",
+    "inProgress": "P\u00e5g\u00e5r...",
+    "success": "Lyckades",
+    "failed": "Misslyckades",
+    "copiedUrl": "Kopierat!",
+    "verifying": "Verifierar...",
+    "generating": "Genererar...",
+    "dismissing": "Avf\u00e4rdar...",
+    "reconnecting": "\u00c5teransluter...",
+    "deleting": "Tar bort...",
+    "adding": "L\u00e4gger till...",
+    "removing": "Tar bort...",
+    "deploying": "Distribuerar...",
+    "fetching": "H\u00e4mtar...",
+    "installing": "Installerar...",
+    "checking": "Kontrollerar..."
+  },
+  "label": {
+    "product": "Produkt",
+    "version": "Version",
+    "status": "Status",
+    "workstation": "Arbetsstation",
+    "details": "Detaljer",
+    "url": "URL",
+    "name": "Namn",
+    "id": "ID",
+    "apiKey": "API-nyckel",
+    "show": "Visa",
+    "all": "Alla",
+    "posOnly": "Endast POS",
+    "currentVersion": "Aktuell version:",
+    "filter": "Filter",
+    "runtime": "Körmiljö",
+    "yes": "Ja",
+    "no": "Nej",
+    "connected": "Ansluten",
+    "disconnected": "Frånkopplad"
+  },
+  "count": {
+    "succeeded": "{{count}} lyckades",
+    "failed": "{{count}} misslyckades"
+  },
+  "table": {
+    "fullScreen": "Helskärm",
+    "exitFullScreen": "Avsluta helskärm",
+    "showingUtc": "Visar UTC — klicka för lokal tid",
+    "showingLocal": "Visar lokal tid — klicka för UTC",
+    "utc": "UTC",
+    "local": "Lokal"
+  },
+  "theme": {
+    "switchToDark": "Byt till mörkt läge",
+    "switchToLight": "Byt till ljust läge"
+  },
+  "validation": {
+    "required": "Obligatoriskt",
+    "labelRequired": "Etikett kr\u00e4vs f\u00f6r manuell klient",
+    "labelNoDots": "Etikett f\u00e5r inte inneh\u00e5lla punkter",
+    "labelInvalidChars": "Etikett inneh\u00e5ller ogiltiga tecken (<>:\"/\\|?*)"
+  },
+  "error": {
+    "generic": "Kunde inte ladda data",
+    "unexpected": "Ett ov\u00e4ntat fel intr\u00e4ffade"
+  },
+  "errorBoundary": {
+    "title": "N\u00e5got gick fel",
+    "tryAgain": "F\u00f6rs\u00f6k igen"
+  }
+}

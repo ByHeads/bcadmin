@@ -1,0 +1,17 @@
+{
+  "title": "Terminaler",
+  "tab": {
+    "accessToken": "Åtkomsttoken",
+    "replicationCommands": "Replikeringskommandon",
+    "shell": "Shell"
+  },
+  "debug": "Felsökning",
+  "loadingCredentials": "Laddar autentiseringsuppgifter...",
+  "terminal": {
+    "copyOutput": "Kopiera utdata",
+    "connectedTo": "Ansluten till {{resource}}",
+    "disconnected": "Frånkopplad",
+    "typeCommand": "Skriv ett kommando...",
+    "waitingConnection": "Väntar på anslutning..."
+  }
+}

@@ -1,0 +1,6 @@
+export { ConnectedTab } from './ConnectedTab'
+export { AllTab } from './AllTab'
+export { SoftwareTab } from './SoftwareTab'
+export { SystemInfoTab } from './SystemInfoTab'
+export { ManualClientsTab } from './ManualClientsTab'
+export { ReportTab } from './ReportTab'

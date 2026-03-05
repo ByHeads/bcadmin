@@ -1,0 +1,7 @@
+export { ConfigTab } from './ConfigTab'
+export { UpdateTab } from './UpdateTab'
+export { RestartTab } from './RestartTab'
+export { DependenciesTab } from './DependenciesTab'
+export { ConnectionsTab } from './ConnectionsTab'
+export { AppSettingsTab } from './AppSettingsTab'
+export { BoolBadge } from './shared'

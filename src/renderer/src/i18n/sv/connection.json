@@ -1,0 +1,58 @@
+{
+  "title": "Broadcaster Administrator",
+  "section": {
+    "connections": "Broadcasters",
+    "detected": "Uppt\u00e4ckt p\u00e5 denna dator"
+  },
+  "form": {
+    "url": "Broadcaster-URL",
+    "name": "Namn",
+    "apiKey": "API-nyckel",
+    "newApiKey": "Ny API-nyckel"
+  },
+  "placeholder": {
+    "apiKey": "API-nyckel f\u00f6r localhost:8101",
+    "enterApiKey": "Ange ny API-nyckel",
+    "filter": "Filtrera...",
+    "urlExample": "Ange m\u00e5l-URL eller tryck Enter f\u00f6r nuvarande",
+    "nameExample": "t.ex. Produktion Butik 5"
+  },
+  "button": {
+    "newConnection": "L\u00e4gg till en ny Broadcaster",
+    "editConnections": "Redigera anslutningar",
+    "doneEditing": "Klar med redigering",
+    "filterConnections": "Filtrera anslutningar",
+    "compactView": "Listvy",
+    "expandedView": "Expanderad vy"
+  },
+  "dialog": {
+    "removeTitle": "Ta bort anslutning",
+    "removeMessage": "Ta bort '{{name}}'? API-nyckeln kommer att raderas permanent."
+  },
+  "reauth": {
+    "title": "Autentisering misslyckades",
+    "message": "API-nyckeln f\u00f6r '{{name}}' avvisades (401/403). Ange en ny API-nyckel f\u00f6r att \u00e5teransluta.",
+    "reconnect": "\u00c5teranslut",
+    "apiKeyRequired": "API-nyckel kr\u00e4vs"
+  },
+  "drop": {
+    "message": "Anslutningen br\u00f6ts",
+    "reconnecting": "f\u00f6rs\u00f6ker \u00e5teransluta...",
+    "retrying": "f\u00f6rs\u00f6ker automatiskt var 5:e sekund"
+  },
+  "security": {
+    "encryptionUnavailable": "Kryptering av autentiseringsuppgifter otillg\u00e4nglig",
+    "encryptionDetail": "API-nycklar lagras utan kryptering."
+  },
+  "thisComputer": "denna dator",
+  "runningOnThisComputer": "K\u00f6r p\u00e5 denna dator",
+  "noMatches": "Inga tr\u00e4ffar",
+  "bannerText": "Appen som saknades \u00e4r \u00e4ntligen h\u00e4r!",
+  "bannerTexts": [
+    "100 % ekologisk",
+    "Fri fr\u00e5n palmolja",
+    "Inneh\u00e5ller sulfiter",
+    "\u00d6ppen bar fr\u00e5n 18:00",
+    "H\u00e5ll borta fr\u00e5n eld"
+  ]
+}
