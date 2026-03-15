@@ -74,7 +74,7 @@ app.whenReady().then(() => {
   }
   registerIpcHandlers()
   const mainWindow = createWindow()
-  if (!isDev) initAutoUpdater(mainWindow)
+  initAutoUpdater(mainWindow)
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {

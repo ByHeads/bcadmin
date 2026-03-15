@@ -151,7 +151,6 @@ export function registerIpcHandlers(): void {
       }
 
       if (!appDir) return null
-      console.log('[bcadmin] Broadcaster appDir:', appDir)
 
       // Walk up from appDir to find appsettings.json or appsettings.Development.json
       const settingsNames = ['appsettings.json', 'appsettings.Development.json']
@@ -172,7 +171,6 @@ export function registerIpcHandlers(): void {
       }
 
       if (!settingsDir) { console.log('[bcadmin] No appsettings found walking up from', appDir); return null }
-      console.log('[bcadmin] Found settings dir:', settingsDir)
 
       for (const name of settingsNames) {
         try {
