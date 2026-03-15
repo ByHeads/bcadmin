@@ -6,12 +6,12 @@ A crisp desktop app for managing [Broadcaster](https://github.com/ByHeads/Broadc
 
 **Windows** (PowerShell):
 ```plain
-irm https://raw.githubusercontent.com/ByHeads/bcadmin/main/scripts/install.ps1 | iex
+irm raw.githubusercontent.com/ByHeads/bcadmin/main/install.ps1 | iex
 ```
 
 **macOS / Linux**:
 ```plain
-curl -fsSL https://raw.githubusercontent.com/ByHeads/bcadmin/main/scripts/install.sh | bash
+curl -fsSL raw.githubusercontent.com/ByHeads/bcadmin/main/install.sh | bash
 ```
 
 ## Browse available binaries
