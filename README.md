@@ -2,7 +2,7 @@
 
 A crisp desktop app for managing [Broadcaster](https://github.com/ByHeads/Broadcaster) instances. Built with Electron and the the Broadcaster API.
 
-### Quick install 🚀
+### Quick install  🚀
 
 **Windows** (PowerShell):
 ```plain
@@ -14,7 +14,7 @@ irm raw.githubusercontent.com/ByHeads/bcadmin/main/install.ps1 | iex
 curl -fsSL raw.githubusercontent.com/ByHeads/bcadmin/main/install.sh | bash
 ```
 
-## Browse available binaries 📖
+## Browse available binaries  📖
 
 | Platform | Architecture | Formats | Download |
 | --- | --- | --- | --- |
@@ -26,7 +26,7 @@ curl -fsSL raw.githubusercontent.com/ByHeads/bcadmin/main/install.sh | bash
 
 After installation, the app checks for updates automatically and will prompt you when a new version is available.
 
-### Getting started 🌟
+### Getting started  🌟
 
 On first launch, you'll be asked to add a connection to a Broadcaster instance. You need:
 
@@ -37,7 +37,7 @@ API keys are stored securely in the OS keychain (macOS Keychain, Windows Credent
 
 ---
 
-## Development 🤓
+## Development  🤓
 
 ### Prerequisites
 
