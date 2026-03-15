@@ -27,7 +27,7 @@ curl -fsSL https://raw.githubusercontent.com/ByHeads/bcadmin/main/install.sh | b
 
 ## 🌟 Getting started
 
-Install using one of the scripts above, or by downloading binaries from the [latest release page](https://github.com/ByHeads/bcadmin/releases/latest).
+Install using one of the scripts above, or by downloading binaries from the [latest release page](https://github.com/ByHeads/bcadmin/releases/latest). For Windows, check for the `.exe` or `.msi` installers.
 
 On first launch, you'll be asked to add a connection to a Broadcaster instance. You need:
 
