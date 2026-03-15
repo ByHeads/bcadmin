@@ -90,7 +90,7 @@ if [ "$PLATFORM" = "mac" ]; then
   rm -f "$TMPFILE"
 
   info "${APP_NAME} $VERSION was installed to /Applications/${APP_NAME}.app"
-  info "Run: open /Applications/${APP_NAME}.app"
+  info "Run: open \"/Applications/${APP_NAME}.app\""
 
 elif [ "$PLATFORM" = "linux" ]; then
   ASSET_PATTERN="${ARCH_SUFFIX}.*\.AppImage"
