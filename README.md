@@ -16,7 +16,7 @@ A crisp desktop app for managing [Broadcaster](https://github.com/ByHeads/Broadc
 ### Quick install
 
 **Windows** (PowerShell):
-```powershell
+```plain
 irm https://raw.githubusercontent.com/ByHeads/bcadmin/main/scripts/install.ps1 | iex
 ```
 
