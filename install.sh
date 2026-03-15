@@ -33,6 +33,11 @@ info()  { echo "> $*"; }
 warn()  { echo -e "${YELLOW}> $*${NC}"; }
 error() { echo -e "${RED}> $*${NC}" >&2; exit 1; }
 
+find_asset_url() {
+  local pattern="$1"
+  printf '%s\n' "$RELEASE_JSON" | sed -n 's/.*"browser_download_url": *"//;s/".*//p' | grep -iE "$pattern" | head -1 || true
+}
+
 OS="$(uname -s)"
 ARCH="$(uname -m)"
 
@@ -59,10 +64,15 @@ info "Latest version: $VERSION"
 
 if [ "$PLATFORM" = "mac" ]; then
   ASSET_PATTERN="${ARCH_SUFFIX}\.dmg"
-  DOWNLOAD_URL=$(echo "$RELEASE_JSON" | grep '"browser_download_url"' | grep -iE "$ASSET_PATTERN" | head -1 | sed 's/.*"browser_download_url": *"//;s/".*//')
+  DOWNLOAD_URL=$(find_asset_url "$ASSET_PATTERN")
 
   if [ -z "$DOWNLOAD_URL" ]; then
-    error "Could not find macOS DMG for $ARCH_SUFFIX in release $VERSION"
+    DOWNLOAD_URL=$(find_asset_url '\.dmg$')
+    if [ -n "$DOWNLOAD_URL" ]; then
+      warn "Could not find a macOS DMG specifically for $ARCH_SUFFIX in release $VERSION; falling back to $(basename "$DOWNLOAD_URL")"
+    else
+      error "Could not find any macOS DMG in release $VERSION"
+    fi
   fi
 
   TMPFILE=$(mktemp -t bcadmin)
@@ -94,7 +104,7 @@ if [ "$PLATFORM" = "mac" ]; then
 
 elif [ "$PLATFORM" = "linux" ]; then
   ASSET_PATTERN="${ARCH_SUFFIX}.*\.AppImage"
-  DOWNLOAD_URL=$(echo "$RELEASE_JSON" | grep '"browser_download_url"' | grep -iE "$ASSET_PATTERN" | head -1 | sed 's/.*"browser_download_url": *"//;s/".*//')
+  DOWNLOAD_URL=$(find_asset_url "$ASSET_PATTERN")
 
   if [ -z "$DOWNLOAD_URL" ]; then
     error "Could not find Linux AppImage for $ARCH_SUFFIX in release $VERSION"
