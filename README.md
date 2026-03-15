@@ -31,7 +31,7 @@ After installation, the app checks for updates automatically and will prompt you
 On first launch, you'll be asked to add a connection to a Broadcaster instance. You need:
 
 - **URL** — the Broadcaster's base URL (e.g. `https://broadcaster.example.com/api`)
-- **API key** — a RESTable API key with access to the admin resources
+- **API key** — an API key with access to the admin resources
 
 API keys are stored securely in the OS keychain (macOS Keychain, Windows Credential Manager, or libsecret on Linux).
 
