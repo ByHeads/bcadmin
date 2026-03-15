@@ -16,12 +16,13 @@ curl -fsSL https://raw.githubusercontent.com/ByHeads/bcadmin/main/scripts/instal
 
 ## Browse available binaries
 
-| Platform | Architecture | Formats |
-| --- | --- | --- |
-| Windows | x64 | `.exe` installer, `.msi` |
-| macOS | Apple Silicon | `.dmg` |
-| macOS | Intel | `.dmg` |
-| Linux | x64, arm64 | `.AppImage`, `.deb` |
+| Platform | Architecture | Formats | Download |
+| --- | --- | --- | --- |
+| Windows | x64 | `.exe` installer, `.msi` | [exe](https://github.com/ByHeads/bcadmin/releases/latest) · [msi](https://github.com/ByHeads/bcadmin/releases/latest) |
+| macOS | Apple Silicon | `.dmg` | [dmg](https://github.com/ByHeads/bcadmin/releases/latest) |
+| macOS | Intel | `.dmg` | [dmg](https://github.com/ByHeads/bcadmin/releases/latest) |
+| Linux | x64 | `.AppImage`, `.deb` | [AppImage](https://github.com/ByHeads/bcadmin/releases/latest) · [deb](https://github.com/ByHeads/bcadmin/releases/latest) |
+| Linux | arm64 | `.AppImage`, `.deb` | [AppImage](https://github.com/ByHeads/bcadmin/releases/latest) · [deb](https://github.com/ByHeads/bcadmin/releases/latest) |
 
 After installation, the app checks for updates automatically and will prompt you when a new version is available.
 
