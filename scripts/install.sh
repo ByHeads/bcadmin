@@ -36,7 +36,7 @@ VERSION=$(echo "$RELEASE_JSON" | grep '"tag_name"' | head -1 | sed 's/.*"tag_nam
 info "Latest version: $VERSION"
 
 if [ "$PLATFORM" = "mac" ]; then
-  ASSET_PATTERN="bcadmin-.*${ARCH_SUFFIX}.*\.dmg"
+  ASSET_PATTERN="${ARCH_SUFFIX}\.dmg"
   DOWNLOAD_URL=$(echo "$RELEASE_JSON" | grep '"browser_download_url"' | grep -iE "$ASSET_PATTERN" | head -1 | sed 's/.*"browser_download_url": *"//;s/".*//')
 
   if [ -z "$DOWNLOAD_URL" ]; then
@@ -50,22 +50,24 @@ if [ "$PLATFORM" = "mac" ]; then
   info "Mounting DMG..."
   MOUNT_POINT=$(hdiutil attach "$TMPFILE" -nobrowse | tail -1 | awk -F'\t' '{print $NF}')
 
-  if [ -d "/Applications/bcadmin.app" ]; then
-    warn "Removing existing /Applications/bcadmin.app..."
-    rm -rf "/Applications/bcadmin.app"
+  if [ -d "/Applications/Broadcaster Administrator.app" ]; then
+    warn "Removing existing /Applications/Broadcaster Administrator.app..."
+    rm -rf "/Applications/Broadcaster Administrator.app"
   fi
 
   info "Installing to /Applications..."
-  cp -R "${MOUNT_POINT}/bcadmin.app" /Applications/
+  APP_NAME=$(find "$MOUNT_POINT" -maxdepth 1 -name "*.app" | head -1)
+  if [ -z "$APP_NAME" ]; then error "No .app found in DMG"; fi
+  cp -R "$APP_NAME" /Applications/
 
   hdiutil detach "$MOUNT_POINT" -quiet
   rm -f "$TMPFILE"
 
-  info "bcadmin $VERSION installed to /Applications/bcadmin.app"
-  info "Run: open /Applications/bcadmin.app"
+  info "bcadmin $VERSION installed to /Applications/Broadcaster Administrator.app"
+  info "Run: open /Applications/Broadcaster Administrator.app"
 
 elif [ "$PLATFORM" = "linux" ]; then
-  ASSET_PATTERN="bcadmin-.*${ARCH_SUFFIX}.*\.AppImage"
+  ASSET_PATTERN="${ARCH_SUFFIX}.*\.AppImage"
   DOWNLOAD_URL=$(echo "$RELEASE_JSON" | grep '"browser_download_url"' | grep -iE "$ASSET_PATTERN" | head -1 | sed 's/.*"browser_download_url": *"//;s/".*//')
 
   if [ -z "$DOWNLOAD_URL" ]; then
