@@ -14,19 +14,9 @@ irm raw.githubusercontent.com/ByHeads/bcadmin/main/install.ps1 | iex
 curl -fsSL raw.githubusercontent.com/ByHeads/bcadmin/main/install.sh | bash
 ```
 
-## 📖 Browse available binaries
-
-| Platform | Architecture | Formats | Download |
-| --- | --- | --- | --- |
-| Windows | x64 | `.exe` installer, `.msi` | [exe](https://github.com/ByHeads/bcadmin/releases/latest) · [msi](https://github.com/ByHeads/bcadmin/releases/latest) |
-| macOS | Apple Silicon | `.dmg` | [dmg](https://github.com/ByHeads/bcadmin/releases/latest) |
-| macOS | Intel | `.dmg` | [dmg](https://github.com/ByHeads/bcadmin/releases/latest) |
-| Linux | x64 | `.AppImage`, `.deb` | [AppImage](https://github.com/ByHeads/bcadmin/releases/latest) · [deb](https://github.com/ByHeads/bcadmin/releases/latest) |
-| Linux | arm64 | `.AppImage`, `.deb` | [AppImage](https://github.com/ByHeads/bcadmin/releases/latest) · [deb](https://github.com/ByHeads/bcadmin/releases/latest) |
-
-After installation, the app checks for updates automatically and will prompt you when a new version is available.
-
 ## 🌟 Getting started
+
+Install using one of the scripts above, or by downloading binaries from the [latest release page](https://github.com/ByHeads/bcadmin/releases/latest).
 
 On first launch, you'll be asked to add a connection to a Broadcaster instance. You need:
 
