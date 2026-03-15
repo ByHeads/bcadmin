@@ -144,7 +144,18 @@ export function initAutoUpdater(initialWindow: BrowserWindow): void {
     })
   }
 
-  // Add "Check for Updates" to the application menu
+  // Show About dialog (for Windows/Linux which don't have a native one)
+  function showAbout(): void {
+    dialog.showMessageBox({
+      type: 'info',
+      title: `About ${app.name}`,
+      message: app.name,
+      detail: `Version ${app.getVersion()}\n\n© 2026 ByHeads`,
+      buttons: ['OK'],
+    })
+  }
+
+  // Add "Check for Updates" and "About" to the application menu
   const template: Electron.MenuItemConstructorOptions[] = [
     ...(process.platform === 'darwin'
       ? [{
@@ -162,17 +173,22 @@ export function initAutoUpdater(initialWindow: BrowserWindow): void {
           ]
         }]
       : []),
+    { role: 'fileMenu' as const },
     { role: 'editMenu' as const },
     { role: 'viewMenu' as const },
     { role: 'windowMenu' as const },
-    ...(!process.platform || process.platform !== 'darwin'
-      ? [{
-          label: 'Help',
-          submenu: [
-            { label: 'Check for Updates...', click: checkForUpdatesFromMenu },
-          ]
-        }]
-      : []),
+    {
+      label: 'Help',
+      submenu: [
+        { label: 'Check for Updates...', click: checkForUpdatesFromMenu },
+        ...(process.platform !== 'darwin'
+          ? [
+              { type: 'separator' as const },
+              { label: `About ${app.name}`, click: showAbout },
+            ]
+          : []),
+      ]
+    },
   ]
   Menu.setApplicationMenu(Menu.buildFromTemplate(template))
 }
