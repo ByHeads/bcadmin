@@ -35,8 +35,6 @@ On first launch, you'll be asked to add a connection to a Broadcaster instance. 
 
 API keys are stored securely in the OS keychain (macOS Keychain, Windows Credential Manager, or libsecret on Linux).
 
----
-
 ## 🤓 Development
 
 ### Prerequisites
