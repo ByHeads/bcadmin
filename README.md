@@ -1,4 +1,4 @@
-# Broadcaster Administrator
+![img](splash.png)
 
 A crisp desktop app for managing [Broadcaster](https://github.com/ByHeads/Broadcaster) instances. Built with Electron and the the Broadcaster API.
 
