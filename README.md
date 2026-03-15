@@ -4,7 +4,7 @@ A crisp desktop app for managing [Broadcaster](https://github.com/ByHeads/Broadc
 
 ## 🍧 Features
 
-- Everything you can do in [bcman](https://docs.heads.com/broadcaster/e/applications/broadcaster-manager)
+- Everything you can currently do in [bcman](https://docs.heads.com/broadcaster/e/applications/broadcaster-manager)
 - A fresh modern Electron-based GUI application that works on Windows, Mac and Linux
 - Control one or more Broadcasters over network or running on the same computer
 - Store connection credentials in the keychain, no more copy-pasting API keys and URLs on each connection
