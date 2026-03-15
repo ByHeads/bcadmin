@@ -39,7 +39,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
         env:
-          # Skip postinstall Electron.app patching on non-macOS
           npm_config_ignore_scripts: ${{ matrix.platform != 'mac' && 'true' || 'false' }}
 
       - name: Run postinstall on macOS
@@ -49,16 +48,27 @@ jobs:
       - name: Build app
         run: npm run build
 
+      - name: Determine signing config
+        id: signing
+        shell: bash
+        env:
+          HAS_MAC_CERT: ${{ secrets.MAC_CERTIFICATE }}
+        run: |
+          if [ "${{ matrix.platform }}" = "mac" ] && [ -z "$HAS_MAC_CERT" ]; then
+            echo "extra_args=-c.mac.identity=null -c.mac.notarize=false" >> $GITHUB_OUTPUT
+          else
+            echo "extra_args=" >> $GITHUB_OUTPUT
+          fi
+
       - name: Package and publish
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # macOS code signing and notarization
           CSC_LINK: ${{ secrets.MAC_CERTIFICATE }}
           CSC_KEY_PASSWORD: ${{ secrets.MAC_CERTIFICATE_PASSWORD }}
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-          # Windows Authenticode signing
           WIN_CSC_LINK: ${{ secrets.WIN_CERTIFICATE }}
           WIN_CSC_KEY_PASSWORD: ${{ secrets.WIN_CERTIFICATE_PASSWORD }}
-        run: npx electron-builder ${{ matrix.args }} --publish always
+        run: npx electron-builder ${{ matrix.args }} ${{ steps.signing.outputs.extra_args }} --publish always
