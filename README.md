@@ -21,7 +21,7 @@ irm https://raw.githubusercontent.com/ByHeads/bcadmin/main/scripts/install.ps1 |
 ```
 
 **macOS / Linux**:
-```bash
+```plain
 curl -fsSL https://raw.githubusercontent.com/ByHeads/bcadmin/main/scripts/install.sh | bash
 ```
 
