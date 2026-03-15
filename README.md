@@ -31,7 +31,7 @@ Install using one of the scripts above, or by downloading binaries from the [lat
 
 On first launch, you'll be asked to add a connection to a Broadcaster instance. You need:
 
-- **URL** — the Broadcaster's base URL (e.g. `https://broadcaster.example.com/api`)
+- **URL** — the Broadcaster's base URL (e.g. `https://broadcaster.example-company.heads-api.com`)
 - **API key** — an API key with access to the admin resources
 
 API keys are stored securely in the OS keychain (macOS Keychain, Windows Credential Manager, or libsecret on Linux).
