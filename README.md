@@ -26,7 +26,7 @@ curl -fsSL raw.githubusercontent.com/ByHeads/bcadmin/main/install.sh | bash
 
 After installation, the app checks for updates automatically and will prompt you when a new version is available.
 
-### 🌟 Getting started
+## 🌟 Getting started
 
 On first launch, you'll be asked to add a connection to a Broadcaster instance. You need:
 
