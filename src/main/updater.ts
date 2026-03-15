@@ -1,5 +1,5 @@
 import { autoUpdater } from 'electron-updater'
-import { app, BrowserWindow, ipcMain, Menu, MenuItem } from 'electron'
+import { app, BrowserWindow, ipcMain, Menu, dialog } from 'electron'
 
 export function initAutoUpdater(initialWindow: BrowserWindow): void {
   autoUpdater.autoDownload = true
@@ -12,6 +12,9 @@ export function initAutoUpdater(initialWindow: BrowserWindow): void {
   }
 
   console.log(`[updater] App version: ${app.getVersion()}, packaged: ${app.isPackaged}`)
+
+  // Track whether the check was user-initiated (menu click)
+  let userInitiated = false
 
   // Check for updates after a short delay
   setTimeout(() => {
@@ -31,7 +34,6 @@ export function initAutoUpdater(initialWindow: BrowserWindow): void {
     30 * 60 * 1000
   )
 
-  // Clean up interval when app is quitting
   app.on('before-quit', () => clearInterval(intervalId))
 
   function sendToWindow(channel: string, ...args: unknown[]): void {
@@ -50,19 +52,61 @@ export function initAutoUpdater(initialWindow: BrowserWindow): void {
   autoUpdater.on('update-available', (info) => {
     console.log(`[updater] Update available: ${info.version}`)
     sendToWindow('update-available', info)
+    if (userInitiated) {
+      userInitiated = false
+      dialog.showMessageBox({
+        type: 'info',
+        title: 'Update Available',
+        message: `Version ${info.version} is available`,
+        detail: 'The update is being downloaded in the background. You will be notified when it is ready to install.',
+        buttons: ['OK'],
+      })
+    }
   })
 
   autoUpdater.on('update-not-available', (info) => {
     console.log(`[updater] No update available (latest: ${info.version}, current: ${app.getVersion()})`)
+    if (userInitiated) {
+      userInitiated = false
+      dialog.showMessageBox({
+        type: 'info',
+        title: 'No Updates',
+        message: 'You are running the latest version',
+        detail: `Current version: ${app.getVersion()}`,
+        buttons: ['OK'],
+      })
+    }
   })
 
   autoUpdater.on('update-downloaded', (info) => {
     console.log(`[updater] Update downloaded: ${info.version}`)
     sendToWindow('update-downloaded', info)
+    dialog.showMessageBox({
+      type: 'info',
+      title: 'Update Ready',
+      message: `Version ${info.version} has been downloaded`,
+      detail: 'The update will be installed when you restart the application. Restart now?',
+      buttons: ['Restart Now', 'Later'],
+      defaultId: 0,
+    }).then((result) => {
+      if (result.response === 0) {
+        autoUpdater.quitAndInstall()
+      }
+    })
   })
 
   autoUpdater.on('error', (err) => {
     console.error('[updater] Error:', err?.message ?? err)
+    if (userInitiated) {
+      userInitiated = false
+      dialog.showMessageBox({
+        type: 'error',
+        title: 'Update Error',
+        message: 'Failed to check for updates',
+        detail: err?.message ?? String(err),
+        buttons: ['OK'],
+      })
+    }
   })
 
   autoUpdater.on('download-progress', (progress) => {
@@ -83,7 +127,24 @@ export function initAutoUpdater(initialWindow: BrowserWindow): void {
     autoUpdater.quitAndInstall()
   })
 
-  // Add "Check for Updates" to the application menu (macOS app menu, or Help menu)
+  // Trigger a user-initiated check (with dialog feedback)
+  function checkForUpdatesFromMenu(): void {
+    userInitiated = true
+    console.log('[updater] Menu: Check for Updates clicked')
+    autoUpdater.checkForUpdates().catch((err) => {
+      userInitiated = false
+      console.error('[updater] Menu check failed:', err?.message ?? err)
+      dialog.showMessageBox({
+        type: 'error',
+        title: 'Update Error',
+        message: 'Failed to check for updates',
+        detail: err?.message ?? String(err),
+        buttons: ['OK'],
+      })
+    })
+  }
+
+  // Add "Check for Updates" to the application menu
   const template: Electron.MenuItemConstructorOptions[] = [
     ...(process.platform === 'darwin'
       ? [{
@@ -91,15 +152,7 @@ export function initAutoUpdater(initialWindow: BrowserWindow): void {
           submenu: [
             { role: 'about' as const },
             { type: 'separator' as const },
-            {
-              label: 'Check for Updates...',
-              click: () => {
-                console.log('[updater] Menu: Check for Updates clicked')
-                autoUpdater.checkForUpdates().catch((err) => {
-                  console.error('[updater] Menu check failed:', err?.message ?? err)
-                })
-              }
-            },
+            { label: 'Check for Updates...', click: checkForUpdatesFromMenu },
             { type: 'separator' as const },
             { role: 'hide' as const },
             { role: 'hideOthers' as const },
@@ -115,14 +168,9 @@ export function initAutoUpdater(initialWindow: BrowserWindow): void {
     ...(!process.platform || process.platform !== 'darwin'
       ? [{
           label: 'Help',
-          submenu: [{
-            label: 'Check for Updates...',
-            click: () => {
-              autoUpdater.checkForUpdates().catch((err) => {
-                console.error('[updater] Menu check failed:', err?.message ?? err)
-              })
-            }
-          }]
+          submenu: [
+            { label: 'Check for Updates...', click: checkForUpdatesFromMenu },
+          ]
         }]
       : []),
   ]

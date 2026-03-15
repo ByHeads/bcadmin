@@ -1,4 +1,3 @@
-#Requires -Version 5.1
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
 
@@ -7,6 +6,7 @@ $appName = "Broadcaster Administrator"
 $apiUrl = "https://api.github.com/repos/$repo/releases/latest"
 $platform = "windows"
 $arch = if ([Environment]::Is64BitOperatingSystem) { "x64" } else { "x86" }
+$tmpFile = $null
 
 function Write-Banner {
     param(
@@ -39,32 +39,50 @@ function Write-Done {
     Write-Host "Done!"
 }
 
-Write-Step "Fetching the latest $appName release from GitHub"
+try {
+    if ($PSVersionTable.PSVersion -lt [Version]'5.1') {
+        throw "PowerShell 5.1 or newer is required. Detected $($PSVersionTable.PSVersion)."
+    }
 
-$release = Invoke-RestMethod -Uri $apiUrl -Headers @{ 'User-Agent' = 'bcadmin-installer' }
-$version = $release.tag_name
-Write-Done
-Write-Banner -VersionTag $version
-Write-Host "> Detected platform: $platform ($arch)"
-Write-Host "> Latest version: $version"
+    Write-Step "Fetching the latest $appName release from GitHub"
 
-$asset = $release.assets | Where-Object { $_.name -match 'setup\.exe$' } | Select-Object -First 1
+    $release = Invoke-RestMethod -Uri $apiUrl -Headers @{ 'User-Agent' = 'bcadmin-installer' }
+    $version = $release.tag_name
+    Write-Done
+    Write-Banner -VersionTag $version
+    Write-Host "> Detected platform: $platform ($arch)"
+    Write-Host "> Latest version: $version"
 
-if (-not $asset) {
-    Write-Host "> Could not find the Windows installer in release $version" -ForegroundColor Red
-    exit 1
+    $asset = $release.assets | Where-Object { $_.name -match 'setup\.exe$' } | Select-Object -First 1
+
+    if (-not $asset) {
+        throw "Could not find the Windows installer in release $version."
+    }
+
+    $downloadUrl = $asset.browser_download_url
+    $tmpFile = Join-Path $env:TEMP "bcadmin-setup.exe"
+
+    Write-Step "Pulling the $appName installer from GitHub"
+    Invoke-WebRequest -Uri $downloadUrl -OutFile $tmpFile -UseBasicParsing
+    Write-Done
+
+    Write-Step "Running the installer"
+    $installer = Start-Process -FilePath $tmpFile -Wait -PassThru
+    Write-Done
+
+    if ($installer.ExitCode -ne 0) {
+        throw "The installer exited with code $($installer.ExitCode)."
+    }
+
+    if ($tmpFile) {
+        Remove-Item $tmpFile -Force -ErrorAction SilentlyContinue
+    }
+    Write-Host "> All done! $appName was successfully installed!" -ForegroundColor Green
 }
-
-$downloadUrl = $asset.browser_download_url
-$tmpFile = Join-Path $env:TEMP "bcadmin-setup.exe"
-
-Write-Step "Pulling the $appName installer from GitHub"
-Invoke-WebRequest -Uri $downloadUrl -OutFile $tmpFile -UseBasicParsing
-Write-Done
-
-Write-Step "Running the installer"
-Start-Process -FilePath $tmpFile -Wait
-Write-Done
-
-Remove-Item $tmpFile -Force -ErrorAction SilentlyContinue
-Write-Host "> All done! $appName was successfully installed!" -ForegroundColor Green
+catch {
+    if ($tmpFile) {
+        Remove-Item $tmpFile -Force -ErrorAction SilentlyContinue
+    }
+    Write-Host "> Installation failed: $($_.Exception.Message)" -ForegroundColor Red
+    return
+}
