@@ -2,17 +2,6 @@
 
 A crisp desktop app for managing [Broadcaster](https://github.com/ByHeads/Broadcaster) instances. Built with Electron and the the Broadcaster API.
 
-## Installation
-
-**[Download the latest release](https://github.com/ByHeads/bcadmin/releases/latest)**
-
-| Platform | Architecture | Formats |
-| --- | --- | --- |
-| Windows | x64 | `.exe` installer, `.msi` |
-| macOS | Apple Silicon | `.dmg` |
-| macOS | Intel | `.dmg` |
-| Linux | x64, arm64 | `.AppImage`, `.deb` |
-
 ### Quick install
 
 **Windows** (PowerShell):
@@ -24,6 +13,15 @@ irm https://raw.githubusercontent.com/ByHeads/bcadmin/main/scripts/install.ps1 |
 ```plain
 curl -fsSL https://raw.githubusercontent.com/ByHeads/bcadmin/main/scripts/install.sh | bash
 ```
+
+## Browse available binaries
+
+| Platform | Architecture | Formats |
+| --- | --- | --- |
+| Windows | x64 | `.exe` installer, `.msi` |
+| macOS | Apple Silicon | `.dmg` |
+| macOS | Intel | `.dmg` |
+| Linux | x64, arm64 | `.AppImage`, `.deb` |
 
 After installation, the app checks for updates automatically and will prompt you when a new version is available.
 
