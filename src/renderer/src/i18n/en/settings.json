@@ -137,6 +137,10 @@
     "httpWarning": "Warning: Unencrypted HTTP connection — credentials will be sent in plaintext",
     "removeTitle": "Remove connection",
     "removeMessage": "Remove '{{name}}'? The API key will be permanently deleted.",
-    "activeWarning": "This is the active connection. You will be disconnected."
+    "activeWarning": "This is the active connection. You will be disconnected.",
+    "testFailed": "Could not connect — verify the URL and API key",
+    "testFailedAuth": "Authentication failed — check your API key",
+    "testFailedServer": "Server responded with an error",
+    "testFailedNetwork": "Could not reach the server"
   }
 }

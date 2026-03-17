@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'react'
 import { Loader2, CheckCircle, AlertTriangle, ArrowRight, Pencil, Trash2, Plus, Plug } from 'lucide-react'
 import { VerifiedBadge } from '@/components/ui/VerifiedBadge'
 import { useTranslation } from 'react-i18next'
-import { useConnectionStore, normalizeUrl } from '@/stores/connection'
+import { useConnectionStore, normalizeUrl, testConnectionReachable } from '@/stores/connection'
 import { formatTimestamp } from '@/lib/utils'
 import type { SavedConnection } from '@shared/types'
 
@@ -103,6 +103,17 @@ export function ConnectionsTab(): React.ReactNode {
       if (editMode?.type === 'add') {
         if (!apiKey.trim()) {
           setFormError(t('connections.apiKeyRequired'))
+          setSaving(false)
+          return
+        }
+        // Test connection before saving
+        try {
+          await testConnectionReachable(normalizedUrl, apiKey.trim())
+        } catch (e) {
+          const msg = e instanceof Error ? e.message : ''
+          if (msg === 'auth') setFormError(t('connections.testFailedAuth'))
+          else if (msg === 'server') setFormError(t('connections.testFailedServer'))
+          else setFormError(t('connections.testFailedNetwork'))
           setSaving(false)
           return
         }

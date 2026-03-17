@@ -8,7 +8,9 @@
     "url": "Broadcaster URL",
     "name": "Name",
     "apiKey": "API Key",
-    "newApiKey": "New API Key"
+    "newApiKey": "New API Key",
+    "apiKeyKeepCurrent": " (leave blank to keep current)",
+    "editTitle": "Edit '{{name}}'"
   },
   "placeholder": {
     "apiKey": "API key for localhost:8101",
@@ -23,7 +25,8 @@
     "doneEditing": "Done editing",
     "filterConnections": "Filter connections",
     "compactView": "List view",
-    "expandedView": "Expanded view"
+    "expandedView": "Expanded view",
+    "editConnection": "Edit connection"
   },
   "dialog": {
     "removeTitle": "Remove connection",
@@ -46,6 +49,17 @@
   },
   "thisComputer": "this computer",
   "runningOnThisComputer": "Running on this computer",
+  "testFailed": "Could not connect — verify the URL and API key",
+  "testFailedAuth": "Authentication failed — check your API key",
+  "testFailedServer": "Server responded with an error",
+  "testFailedNetwork": "Could not reach the server",
+  "connectError": {
+    "title": "Connection failed",
+    "auth": "The API key for <b>{{name}}</b> was rejected. Update the key and try again.",
+    "network": "Could not reach <b>{{name}}</b>. Check the URL and your network connection.",
+    "no-key": "No API key found for <b>{{name}}</b>. Remove and re-add the connection.",
+    "unknown": "Could not connect to <b>{{name}}</b>."
+  },
   "noMatches": "No matches",
   "bannerText": "The missing app is finally here!",
   "bannerTexts": [

@@ -1,10 +1,10 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import {
   AlertTriangle, Plus, ChevronRight, CornerDownLeft, Loader2,
-  MoreHorizontal, ArrowUp, ArrowDown, Trash2, LayoutGrid, List, Search, X
+  MoreHorizontal, ArrowUp, ArrowDown, Trash2, LayoutGrid, List, Search, X, Pencil
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { useConnectionStore, normalizeUrl } from '@/stores/connection'
+import { useConnectionStore, normalizeUrl, testConnectionReachable, type ConnectionError } from '@/stores/connection'
 import { useThemeStore } from '@/stores/theme'
 import headsLogo from '@/assets/heads.svg'
 import { SignalBackground } from './SignalBackground'
@@ -541,22 +541,87 @@ function FlyingAirplane(): React.ReactNode {
   )
 }
 
+const AUTO_DISMISS_SECONDS = 20
+
+/** Modal dialog shown when connecting to a saved connection fails */
+function ConnectionErrorDialog({ error, onDismiss, onEdit }: { error: ConnectionError; onDismiss: () => void; onEdit?: () => void }): React.ReactNode {
+  const { t } = useTranslation(['connection', 'common'])
+  const [remaining, setRemaining] = useState(AUTO_DISMISS_SECONDS)
+
+  // Countdown + auto-dismiss
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRemaining((r) => {
+        if (r <= 1) { onDismiss(); return 0 }
+        return r - 1
+      })
+    }, 1000)
+    return () => clearInterval(interval)
+  }, [onDismiss])
+
+  // Dismiss on Escape
+  useEffect(() => {
+    const handler = (e: KeyboardEvent): void => {
+      if (e.key === 'Escape') onDismiss()
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [onDismiss])
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={onDismiss}>
+      <div
+        className="w-full max-w-sm rounded-lg border border-border bg-surface p-6 shadow-lg"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-start gap-3">
+          <AlertTriangle size={20} className="mt-0.5 shrink-0 text-error" />
+          <div className="min-w-0">
+            <h2 className="text-base font-semibold text-foreground">{t('connectError.title')}</h2>
+            <p className="mt-1.5 text-sm text-muted [&_b]:font-semibold [&_b]:text-foreground"
+              dangerouslySetInnerHTML={{ __html: t(`connectError.${error.code}`, { name: error.connectionName, interpolation: { escapeValue: true } }) }}
+            />
+          </div>
+        </div>
+        <div className="mt-4 flex justify-end gap-2">
+          {onEdit && (
+            <button
+              onClick={onEdit}
+              className="rounded-md bg-accent px-4 pt-[7px] pb-[9px] text-sm font-medium text-accent-foreground transition-colors hover:bg-accent/90"
+            >
+              {t('button.editConnection')}
+            </button>
+          )}
+          <button
+            onClick={onDismiss}
+            className="rounded-md border border-border px-4 pt-[7px] pb-[9px] text-sm text-muted transition-colors hover:text-foreground"
+          >
+            {t('button.ok', { ns: 'common' })} <span className="inline-block w-[3ch] text-left tabular-nums">({remaining})</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 type ViewMode = 'large' | 'small'
 
 export function ConnectionScreen(): React.ReactNode {
   const { t } = useTranslation(['connection', 'common'])
-  const { connections, status, error, connect, addConnection, removeConnection, reorderConnections, loadConnections } =
+  const { connections, status, error, clearError, connect, addConnection, removeConnection, reorderConnections, loadConnections } =
     useConnectionStore()
   const theme = useThemeStore((s) => s.theme)
   const { isChristmas } = useSeasonal()
-  const [showAdd, setShowAdd] = useState(false)
+  const [showForm, setShowForm] = useState(false)
+  const [editingConnection, setEditingConnection] = useState<SavedConnection | null>(null)
   const [url, setUrl] = useState('')
   const [name, setName] = useState('')
   const [nameManuallyEdited, setNameManuallyEdited] = useState(false)
   const [apiKey, setApiKey] = useState('')
-  const [addError, setAddError] = useState<string | null>(null)
+  const [formError, setFormError] = useState<string | null>(null)
   const [submitted, setSubmitted] = useState(false)
   const [saving, setSaving] = useState(false)
+  const [testing, setTesting] = useState(false)
   const [pendingRemoval, setPendingRemoval] = useState<SavedConnection | null>(null)
   const [encryptionAvailable, setEncryptionAvailable] = useState<boolean | null>(null)
   const [editMode, setEditMode] = useState(false)
@@ -575,9 +640,9 @@ export function ConnectionScreen(): React.ReactNode {
     window.api.isEncryptionAvailable().then(setEncryptionAvailable)
   }, [])
 
-  // Clear connecting indicator when status changes
+  // Clear connecting indicator when status changes (but keep it while error modal is showing)
   useEffect(() => {
-    if (status !== 'connecting') setConnectingId(null)
+    if (status !== 'connecting' && status !== 'error') setConnectingId(null)
   }, [status])
 
   // Rotate the panel's gradient border
@@ -629,33 +694,105 @@ export function ConnectionScreen(): React.ReactNode {
     return () => window.removeEventListener('keydown', handleRemovalKeyDown)
   }, [pendingRemoval, handleRemovalKeyDown])
 
-  const handleAdd = async (): Promise<void> => {
+  const openEditForm = (conn: SavedConnection): void => {
+    setEditingConnection(conn)
+    setUrl(conn.url.replace(/\/api\/?$/, ''))
+    setName(conn.name)
+    setNameManuallyEdited(true)
+    setApiKey('')
+    setFormError(null)
+    setSubmitted(false)
+    setShowForm(true)
+  }
+
+  const closeForm = (): void => {
+    setShowForm(false)
+    setEditingConnection(null)
+    setUrl('')
+    setName('')
+    setNameManuallyEdited(false)
+    setApiKey('')
+    setFormError(null)
+    setSubmitted(false)
+  }
+
+  const handleFormSubmit = async (): Promise<void> => {
     const trimmedUrl = url.trim()
     const trimmedName = name.trim()
     const trimmedKey = apiKey.trim()
+    const isEditing = editingConnection !== null
     setSubmitted(true)
-    if (!trimmedUrl || !trimmedName || !trimmedKey) {
+    if (!trimmedUrl || !trimmedName || (!isEditing && !trimmedKey)) {
       return
     }
-    const connection: SavedConnection = {
-      id: crypto.randomUUID(),
-      name: trimmedName,
-      url: normalizeUrl(trimmedUrl),
-      lastConnected: null,
-      color: null
-    }
-    setSaving(true)
-    setAddError(null)
+    let normalizedUrl: string
     try {
-      await addConnection(connection, trimmedKey)
-      setUrl('')
-      setName('')
-      setNameManuallyEdited(false)
-      setApiKey('')
-      setShowAdd(false)
-      await connect(connection)
+      normalizedUrl = normalizeUrl(trimmedUrl)
+    } catch {
+      setFormError(t('testFailedNetwork'))
+      return
+    }
+
+    // Determine if we need to test the connection
+    const urlChanged = isEditing ? normalizedUrl !== editingConnection.url : true
+    const keyChanged = trimmedKey.length > 0
+    const needsTest = urlChanged || keyChanged || !isEditing
+
+    if (needsTest) {
+      // For edit without new key but with URL change, we need the stored key
+      let testKey = trimmedKey
+      if (isEditing && !keyChanged) {
+        const storedKey = await window.api.getCredential(editingConnection.id)
+        if (!storedKey) {
+          setFormError(t('testFailedAuth'))
+          return
+        }
+        testKey = storedKey
+      }
+      setTesting(true)
+      setFormError(null)
+      try {
+        await testConnectionReachable(normalizedUrl, testKey)
+      } catch (e) {
+        const msg = e instanceof Error ? e.message : ''
+        if (msg === 'auth') setFormError(t('testFailedAuth'))
+        else if (msg === 'server') setFormError(t('testFailedServer'))
+        else setFormError(t('testFailedNetwork'))
+        setTesting(false)
+        return
+      }
+      setTesting(false)
+    }
+
+    setSaving(true)
+    setFormError(null)
+    try {
+      if (isEditing) {
+        const updated: SavedConnection = {
+          ...editingConnection,
+          name: trimmedName,
+          url: normalizedUrl
+        }
+        await window.api.saveConnection(updated)
+        if (keyChanged) {
+          await window.api.setCredential(editingConnection.id, trimmedKey)
+        }
+        await loadConnections()
+        closeForm()
+      } else {
+        const connection: SavedConnection = {
+          id: crypto.randomUUID(),
+          name: trimmedName,
+          url: normalizedUrl,
+          lastConnected: null,
+          color: null
+        }
+        await addConnection(connection, trimmedKey)
+        closeForm()
+        await connect(connection)
+      }
     } catch (e) {
-      setAddError(e instanceof Error ? e.message : 'Failed to save connection')
+      setFormError(e instanceof Error ? e.message : t('testFailed'))
     } finally {
       setSaving(false)
     }
@@ -679,7 +816,7 @@ export function ConnectionScreen(): React.ReactNode {
     await reorderConnections(ids)
   }
 
-  const isDisabled = status === 'connecting' || saving
+  const isDisabled = status === 'connecting' || status === 'error' || saving || testing
 
   const filteredConnections = search.trim()
     ? connections.filter((c) => {
@@ -705,7 +842,7 @@ export function ConnectionScreen(): React.ReactNode {
 
   // Open search when user starts typing anywhere on the page
   useEffect(() => {
-    if (!hasConnections || showAdd) return
+    if (!hasConnections || showForm) return
     const handler = (e: KeyboardEvent): void => {
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return
       if (e.metaKey || e.ctrlKey || e.altKey) return
@@ -715,7 +852,7 @@ export function ConnectionScreen(): React.ReactNode {
     }
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
-  }, [hasConnections, showAdd])
+  }, [hasConnections, showForm])
 
   const isDark = theme === 'dark'
   const glassInner = isDark
@@ -787,10 +924,6 @@ export function ConnectionScreen(): React.ReactNode {
             </div>
           )}
 
-          {error && (
-            <div className="rounded-md bg-error/10 p-3 text-sm text-error">{error}</div>
-          )}
-
           {/* Glass panel */}
           <div className="relative">
           <div
@@ -807,7 +940,7 @@ export function ConnectionScreen(): React.ReactNode {
           />
           <div className={`relative rounded-xl shadow-xl border ${glassBorder} ${glassInner}`}>
             {/* Header with view toggle, search, and edit mode — hidden when add form is open */}
-            {hasConnections && !showAdd && (
+            {hasConnections && !showForm && (
               <div className="px-5 pt-3 pb-3">
                 <div className="flex items-center justify-between">
                   {searchOpen ? (
@@ -867,7 +1000,7 @@ export function ConnectionScreen(): React.ReactNode {
             )}
 
             {/* Saved connections — scrollable, hidden when add form is open */}
-            {hasConnections && !showAdd && (
+            {hasConnections && !showForm && (
               <div className={`max-h-[45vh] overflow-y-auto ${hasConnections ? `border-t ${glassDivider}` : ''}`}>
                 {filteredConnections.length === 0 && search.trim() && (
                   <div className="px-5 py-4 text-center text-sm text-muted">{t('noMatches')}</div>
@@ -914,6 +1047,13 @@ export function ConnectionScreen(): React.ReactNode {
                     {editMode && !search.trim() && (
                       <div className="absolute right-3 top-1/2 flex -translate-y-1/2 items-center gap-0.5">
                         <button
+                          onClick={() => openEditForm(conn)}
+                          className="rounded p-1 text-muted transition-colors hover:text-foreground"
+                          title={t('button.editConnection')}
+                        >
+                          <Pencil size={14} />
+                        </button>
+                        <button
                           onClick={() => handleMove(i, 'up')}
                           disabled={i === 0}
                           className="rounded p-1 text-muted transition-colors hover:text-foreground disabled:opacity-25"
@@ -940,10 +1080,10 @@ export function ConnectionScreen(): React.ReactNode {
               </div>
             )}
 
-            {/* Add connection button / form */}
-            {!showAdd ? (
+            {/* Add/edit connection form */}
+            {!showForm ? (
               <button
-                onClick={() => setShowAdd(true)}
+                onClick={() => { setEditingConnection(null); setShowForm(true) }}
                 className={`flex w-full items-center gap-2 px-5 pb-5 pt-4 text-base font-medium transition-colors ${glassHover} hover:text-foreground ${hasConnections ? `border-t ${glassDivider}` : ''} ${isDark ? 'text-muted-foreground' : 'text-foreground/60'}`}
               >
                 <Plus size={16} />
@@ -953,12 +1093,18 @@ export function ConnectionScreen(): React.ReactNode {
               <form
                 onSubmit={(e) => {
                   e.preventDefault()
-                  handleAdd()
+                  handleFormSubmit()
                 }}
                 className="space-y-3 p-5"
               >
-                {addError && (
-                  <div className="rounded-md bg-error/10 p-2 text-xs text-error">{addError}</div>
+                {editingConnection && (
+                  <div className="text-xs font-medium uppercase tracking-wider text-muted">
+                    {t('form.editTitle', { name: editingConnection.name })}
+                  </div>
+                )}
+
+                {formError && (
+                  <div className="rounded-md bg-error/10 p-2 text-xs text-error">{formError}</div>
                 )}
 
                 <fieldset className={`relative rounded-md border ${submitted && !url.trim() ? 'border-error' : glassBorder}`}>
@@ -989,29 +1135,25 @@ export function ConnectionScreen(): React.ReactNode {
                   />
                 </fieldset>
 
-                <fieldset className={`relative rounded-md border ${submitted && !apiKey.trim() ? 'border-error' : glassBorder}`}>
-                  <legend className={`ml-3 px-1 text-xs ${submitted && !apiKey.trim() ? 'text-error' : 'text-muted'}`}>{t('form.apiKey')}</legend>
+                <fieldset className={`relative rounded-md border ${submitted && !editingConnection && !apiKey.trim() ? 'border-error' : glassBorder}`}>
+                  <legend className={`ml-3 px-1 text-xs ${submitted && !editingConnection && !apiKey.trim() ? 'text-error' : 'text-muted'}`}>
+                    {t('form.apiKey')}
+                  </legend>
                   <input
                     type="password"
                     value={apiKey}
                     onChange={(e) => { setApiKey(e.target.value); setSubmitted(false) }}
-                    placeholder={submitted && !apiKey.trim() ? t('required', { ns: 'common', keyPrefix: 'validation' }) : undefined}
-                    className={`w-full rounded-md px-3 pb-2 pt-0.5 text-sm text-foreground placeholder:text-error/50 focus:outline-none ${glassInput}`}
+                    placeholder={submitted && !editingConnection && !apiKey.trim()
+                      ? t('required', { ns: 'common', keyPrefix: 'validation' })
+                      : editingConnection ? '••••••••' : undefined}
+                    className={`w-full rounded-md px-3 pb-2 pt-0.5 font-mono text-[13px] text-foreground focus:outline-none ${glassInput} ${submitted && !editingConnection && !apiKey.trim() ? 'placeholder:font-sans placeholder:text-error/50' : 'placeholder:text-muted'}`}
                   />
                 </fieldset>
 
                 <div className="flex gap-2 pt-1">
                   <button
                     type="button"
-                    onClick={() => {
-                      setShowAdd(false)
-                      setUrl('')
-                      setName('')
-                      setNameManuallyEdited(false)
-                      setApiKey('')
-                      setAddError(null)
-                      setSubmitted(false)
-                    }}
+                    onClick={closeForm}
                     className={`flex-1 rounded-md border ${glassBorder} bg-transparent px-4 pt-[7px] pb-[9px] text-sm text-muted transition-colors hover:text-foreground ${isDark ? 'hover:bg-white/5' : 'hover:bg-black/3'}`}
                   >
                     {t('button.cancel', { ns: 'common' })}
@@ -1021,11 +1163,15 @@ export function ConnectionScreen(): React.ReactNode {
                     disabled={isDisabled}
                     className="flex-1 rounded-md bg-accent px-4 pt-[7px] pb-[9px] text-sm font-medium text-accent-foreground transition-colors hover:bg-accent/90 disabled:opacity-50"
                   >
-                    {saving
-                      ? t('state.saving', { ns: 'common' })
-                      : status === 'connecting'
-                        ? t('state.connecting', { ns: 'common' })
-                        : t('button.connect', { ns: 'common' })}
+                    {testing
+                      ? t('state.verifying', { ns: 'common' })
+                      : saving
+                        ? t('state.saving', { ns: 'common' })
+                        : editingConnection
+                          ? t('button.save', { ns: 'common' })
+                          : status === 'connecting'
+                            ? t('state.connecting', { ns: 'common' })
+                            : t('button.connect', { ns: 'common' })}
                   </button>
                 </div>
               </form>
@@ -1060,6 +1206,17 @@ export function ConnectionScreen(): React.ReactNode {
           </div>
         </div>
       )}
+
+      {error && <ConnectionErrorDialog
+        error={error}
+        onDismiss={() => { clearError(); setConnectingId(null) }}
+        onEdit={() => {
+          const conn = connections.find((c) => c.name === error.connectionName)
+          clearError()
+          setConnectingId(null)
+          if (conn) openEditForm(conn)
+        }}
+      />}
     </div>
   )
 }

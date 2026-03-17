@@ -8,7 +8,9 @@
     "url": "Broadcaster-URL",
     "name": "Namn",
     "apiKey": "API-nyckel",
-    "newApiKey": "Ny API-nyckel"
+    "newApiKey": "Ny API-nyckel",
+    "apiKeyKeepCurrent": " (l\u00e4mna tomt f\u00f6r att beh\u00e5lla nuvarande)",
+    "editTitle": "Redigera '{{name}}'"
   },
   "placeholder": {
     "apiKey": "API-nyckel f\u00f6r localhost:8101",
@@ -23,7 +25,8 @@
     "doneEditing": "Klar med redigering",
     "filterConnections": "Filtrera anslutningar",
     "compactView": "Listvy",
-    "expandedView": "Expanderad vy"
+    "expandedView": "Expanderad vy",
+    "editConnection": "Redigera anslutning"
   },
   "dialog": {
     "removeTitle": "Ta bort anslutning",
@@ -46,6 +49,17 @@
   },
   "thisComputer": "denna dator",
   "runningOnThisComputer": "K\u00f6r p\u00e5 denna dator",
+  "testFailed": "Kunde inte ansluta \u2014 kontrollera URL och API-nyckel",
+  "testFailedAuth": "Autentisering misslyckades \u2014 kontrollera din API-nyckel",
+  "testFailedServer": "Servern svarade med ett fel",
+  "testFailedNetwork": "Kunde inte n\u00e5 servern",
+  "connectError": {
+    "title": "Anslutningen misslyckades",
+    "auth": "API-nyckeln f\u00f6r <b>{{name}}</b> avvisades. Uppdatera nyckeln och f\u00f6rs\u00f6k igen.",
+    "network": "Kunde inte n\u00e5 <b>{{name}}</b>. Kontrollera URL:en och din n\u00e4tverksanslutning.",
+    "no-key": "Ingen API-nyckel hittades f\u00f6r <b>{{name}}</b>. Ta bort och l\u00e4gg till anslutningen p\u00e5 nytt.",
+    "unknown": "Kunde inte ansluta till <b>{{name}}</b>."
+  },
   "noMatches": "Inga tr\u00e4ffar",
   "bannerText": "Appen som saknades \u00e4r \u00e4ntligen h\u00e4r!",
   "bannerTexts": [

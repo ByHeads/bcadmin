@@ -4,13 +4,21 @@ import { queryClient } from '@/lib/query-client'
 import type { SavedConnection } from '@shared/types'
 import type { AvailableResource } from '@/api/types'
 
+export type ConnectionErrorCode = 'auth' | 'network' | 'server' | 'no-key' | 'unknown'
+
+export interface ConnectionError {
+  code: ConnectionErrorCode
+  connectionName: string
+  detail?: string
+}
+
 interface ConnectionState {
   connections: SavedConnection[]
   activeConnection: SavedConnection | null
   client: BroadcasterClient | null
   availableResources: AvailableResource[]
   status: 'loading' | 'disconnected' | 'connecting' | 'connected' | 'error'
-  error: string | null
+  error: ConnectionError | null
   authErrorConnection: SavedConnection | null
   connectionDropped: boolean
   reconnecting: boolean
@@ -24,6 +32,7 @@ interface ConnectionState {
   reorderConnections: (ids: string[]) => Promise<void>
   hasAccess: (resourceName: string, method: string) => boolean
   reauth: (newApiKey: string) => Promise<void>
+  clearError: () => void
   dismissReauth: () => void
   setSuppressConnectionDrop: (suppress: boolean) => void
   attemptReconnect: () => Promise<void>
@@ -60,6 +69,23 @@ export function normalizeUrl(input: string): string {
   }
 
   return url
+}
+
+/** Test whether a connection is reachable with the given credentials (without saving anything) */
+export async function testConnectionReachable(url: string, apiKey: string): Promise<void> {
+  const res = await fetch(`${url}/AvailableResource`, {
+    headers: {
+      Authorization: `Basic ${btoa(`any:${apiKey}`)}`,
+      Accept: 'application/json;raw=true'
+    },
+    signal: AbortSignal.timeout(10_000)
+  })
+  if (res.status === 401 || res.status === 403) {
+    throw new Error('auth')
+  }
+  if (!res.ok) {
+    throw new Error('server')
+  }
 }
 
 export const useConnectionStore = create<ConnectionState>((set, get) => ({
@@ -108,6 +134,8 @@ export const useConnectionStore = create<ConnectionState>((set, get) => ({
           queryClient.clear()
         },
         onNetworkError: () => {
+          // Only trigger connection-drop UI for an established connection, not during initial connect
+          if (!get().activeConnection) return
           if (get().suppressConnectionDrop || get().connectionDropped) return
           set({ connectionDropped: true })
         }
@@ -131,11 +159,23 @@ export const useConnectionStore = create<ConnectionState>((set, get) => ({
       // Refresh connection list
       await get().loadConnections()
     } catch (e) {
+      const msg = e instanceof Error ? e.message : ''
+      const isAuth = (e && typeof e === 'object' && 'isAuthError' in e && (e as { isAuthError?: boolean }).isAuthError) || false
+      const isNetwork = e instanceof TypeError && /fetch|network/i.test(msg)
+      const code: ConnectionErrorCode = msg === 'No API key found for this connection' ? 'no-key'
+        : isAuth ? 'auth'
+        : isNetwork ? 'network'
+        : 'unknown'
       set({
         status: 'error',
-        error: e instanceof Error ? e.message : 'Connection failed',
+        error: {
+          code,
+          connectionName: connection.name,
+          detail: e instanceof Error ? e.message : undefined
+        },
         client: null,
-        activeConnection: null
+        activeConnection: null,
+        connectionDropped: false
       })
     }
   },
@@ -198,14 +238,13 @@ export const useConnectionStore = create<ConnectionState>((set, get) => ({
     try {
       await window.api.setCredential(connection.id, newApiKey)
       await get().connect(connection)
-    } catch (e) {
-      set({
-        status: 'error',
-        error: e instanceof Error ? e.message : 'Re-authentication failed',
-        client: null,
-        activeConnection: null
-      })
+    } catch {
+      // connect() already handles its own error state
     }
+  },
+
+  clearError: () => {
+    set({ error: null, status: 'disconnected' })
   },
 
   dismissReauth: () => {

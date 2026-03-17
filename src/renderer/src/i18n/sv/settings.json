@@ -137,6 +137,10 @@
     "httpWarning": "Varning: Okrypterad HTTP-anslutning — autentiseringsuppgifter skickas i klartext",
     "removeTitle": "Ta bort anslutning",
     "removeMessage": "Ta bort '{{name}}'? API-nyckeln raderas permanent.",
-    "activeWarning": "Detta är den aktiva anslutningen. Du kommer att kopplas från."
+    "activeWarning": "Detta är den aktiva anslutningen. Du kommer att kopplas från.",
+    "testFailed": "Kunde inte ansluta \u2014 kontrollera URL och API-nyckel",
+    "testFailedAuth": "Autentisering misslyckades \u2014 kontrollera din API-nyckel",
+    "testFailedServer": "Servern svarade med ett fel",
+    "testFailedNetwork": "Kunde inte n\u00e5 servern"
   }
 }
