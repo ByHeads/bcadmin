@@ -45,6 +45,8 @@ const api = {
     ipcRenderer.invoke('nativeTheme:set', mode),
   setWindowButtonVisibility: (visible: boolean): Promise<void> =>
     ipcRenderer.invoke('window:setButtonVisibility', visible),
+  setWindowBackgroundColor: (color: string): Promise<void> =>
+    ipcRenderer.invoke('window:setBackgroundColor', color),
 
   // Local Broadcaster detection
   detectLocalBroadcaster: (): Promise<{ url: string; apiKey: string; appDir: string; hostName: string } | null> =>

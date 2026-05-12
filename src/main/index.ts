@@ -6,6 +6,17 @@ import { registerIpcHandlers } from './ipc'
 
 app.name = 'Broadcaster Administrator'
 
+// Override macOS About panel so it shows our values even in dev,
+// where the native panel would otherwise read Electron's bundled Info.plist.
+if (process.platform === 'darwin') {
+  app.setAboutPanelOptions({
+    applicationName: app.name,
+    applicationVersion: app.getVersion(),
+    version: app.getVersion(),
+    copyright: 'Copyright (c) 2026 ByHeads'
+  })
+}
+
 // Renaming the Electron binary for dock name causes app.isPackaged to return true
 // in dev, so we use ELECTRON_RENDERER_URL (set by electron-vite) to detect dev mode.
 const isDev = !!process.env['ELECTRON_RENDERER_URL']
@@ -24,7 +35,7 @@ function createWindow(): BrowserWindow {
     minHeight: 600,
     show: false,
     titleBarStyle: process.platform === 'darwin' ? 'customButtonsOnHover' : 'default',
-    backgroundColor: '#ffffff',
+    backgroundColor: '#0a0f14',
     icon: getIconPath(),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),

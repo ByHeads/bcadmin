@@ -8,6 +8,12 @@ interface ThemeState {
   setTheme: (theme: Theme) => void
 }
 
+// Must match --color-background in app.css for each theme
+const BACKGROUND_COLORS: Record<Theme, string> = {
+  light: '#ffffff',
+  dark: '#0a0f14'
+}
+
 function getSystemTheme(): Theme {
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
 }
@@ -24,6 +30,9 @@ function getInitialTheme(): Theme {
 
 function applyTheme(theme: Theme, persist = true): void {
   document.documentElement.classList.toggle('dark', theme === 'dark')
+  window.api?.setWindowBackgroundColor(BACKGROUND_COLORS[theme]).catch(() => {
+    // best-effort
+  })
   if (persist) {
     try {
       localStorage.setItem('bcadmin-theme', theme)

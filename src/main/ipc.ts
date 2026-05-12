@@ -94,6 +94,15 @@ export function registerIpcHandlers(): void {
     }
   })
 
+  // Window background color (avoids white flash on resize when in dark mode)
+  ipcMain.handle('window:setBackgroundColor', (event, color: unknown) => {
+    if (typeof color !== 'string' || !/^#[0-9a-fA-F]{6}$/.test(color)) {
+      throw new Error('Invalid color value')
+    }
+    const win = BrowserWindow.fromWebContents(event.sender)
+    win?.setBackgroundColor(color)
+  })
+
   // Directory chooser dialog
   ipcMain.handle('dialog:openDirectory', async (_event, defaultPath?: string) => {
     const opts = {

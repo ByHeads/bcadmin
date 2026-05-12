@@ -55,6 +55,19 @@
   --color-ring: #4da3d4;
 }
 
+:root {
+  color-scheme: light;
+}
+
+:root.dark {
+  color-scheme: dark;
+}
+
+html,
+body {
+  background-color: var(--color-background);
+}
+
 @keyframes nav-blink {
   0%, 100% { opacity: 0.3; }
   50% { opacity: 0.8; }
