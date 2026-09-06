@@ -17,7 +17,18 @@
     "selected": "{{count}} valda",
     "search": "S\u00f6k arbetsstationer...",
     "selectAll": "V\u00e4lj alla ({{count}})",
-    "noMatch": "Inga arbetsstationer matchar \u201c{{query}}\u201d"
+    "noMatch": "Inga arbetsstationer matchar \u201c{{query}}\u201d",
+    "expand": "V\u00e4lj arbetsstationer fr\u00e5n tabell",
+    "bulkSelect": "V\u00e4lj {{matched}} av {{total}} listade arbetsstationer",
+    "bulkNotFound": "{{count}} hittades inte: {{ids}}",
+    "picker": {
+      "title": "V\u00e4lj arbetsstationer",
+      "lastActive": "Senast aktiv",
+      "clear": "Rensa urval",
+      "apply": "V\u00e4lj ({{count}})",
+      "empty": "Inga arbetsstationer hittades",
+      "error": "Kunde inte ladda arbetsstationer"
+    }
   },
   "install": {
     "receiverInfo": "Receiver kan inte fj\u00e4rrinstalleras. Anv\u00e4nd Install Script Maker (ISM)-fliken f\u00f6r att generera ett installationsskript f\u00f6r nya Receivers.",

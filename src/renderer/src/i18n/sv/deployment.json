@@ -14,7 +14,7 @@
       "files": "Filer"
     },
     "viewFiles": "Visa filer",
-    "filesTitle": "{{product}} v{{version}} \u2014 Filer",
+    "filesTitle": "{{product}} v{{version}} — Filer",
     "error": "Kunde inte ladda distributionsfiler",
     "cleanupTitle": "Ta bort version",
     "deleteMessage": "Ta bort alla {{product}}-filer för version {{version}}? Versionen finns inte i startschemat.",
@@ -28,12 +28,16 @@
     },
     "deploy": "Distribuera",
     "viewFiles": "Visa filer",
-    "filesTitle": "{{product}} v{{version}} \u2014 Filer",
+    "filesTitle": "{{product}} v{{version}} — Filer",
     "error": "Kunde inte ladda fjärrfiler",
     "deployError": "Distribution misslyckades",
     "confirmTitle": "Distribuera version",
     "confirmMessage": "Distribuera {{product}} version {{version}} till broadcastern?",
-    "confirmDetail": "Detta laddar ner och distribuerar de valda versionsfilerna."
+    "confirmDetail": "Detta laddar ner och distribuerar de valda versionsfilerna.",
+    "sftpNotConfigured": "Ingen SFTP-programvaruserver är konfigurerad på broadcastern, så fjärrversioner kan inte listas. Konfigurera SFTP-programvaruservern under Inställningar → Appinställningar.",
+    "sftpNoAccess": "Broadcastern kan inte nå SFTP-programvaruservern ({{url}}). Fjärrversioner kan inte listas.",
+    "sftpChecking": "Kontrollerar åtkomst till SFTP-programvaruservern...",
+    "empty": "Inga odistribuerade {{product}}-versioner hittades på SFTP-servern."
   },
   "launchSchedule": {
     "column": {

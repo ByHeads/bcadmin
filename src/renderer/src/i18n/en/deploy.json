@@ -17,7 +17,18 @@
     "selected": "{{count}} selected",
     "search": "Search workstations...",
     "selectAll": "Select all ({{count}})",
-    "noMatch": "No workstations match \u201c{{query}}\u201d"
+    "noMatch": "No workstations match \u201c{{query}}\u201d",
+    "expand": "Select workstations from table",
+    "bulkSelect": "Select {{matched}} of {{total}} listed workstations",
+    "bulkNotFound": "{{count}} not found: {{ids}}",
+    "picker": {
+      "title": "Select Workstations",
+      "lastActive": "Last Active",
+      "clear": "Clear selection",
+      "apply": "Select ({{count}})",
+      "empty": "No workstations found",
+      "error": "Failed to load workstations"
+    }
   },
   "install": {
     "receiverInfo": "Receiver cannot be remote-installed. Use the Install Script Maker (ISM) tab to generate an install script for new receivers.",

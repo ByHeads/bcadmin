@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { createColumnHelper, type ColumnDef } from '@tanstack/react-table'
-import { Download, FileText, X } from 'lucide-react'
+import { Download, FileText, X, AlertTriangle, Info } from 'lucide-react'
 import { useConnectionStore } from '@/stores/connection'
 import { formatTimestamp } from '@/lib/utils'
 import { DashboardTable, ProductSelector, type ProductName, PRODUCTS } from '@/components/dashboard'
@@ -20,6 +20,19 @@ interface GroupedVersion {
   version: string
   latestBuild: string
   files: { name: string; fullName: string }[]
+}
+
+interface SftpSettingsRow {
+  Url?: string
+  Port?: number
+  UserName?: string
+}
+
+interface RebuildIndexRow {
+  Success: boolean
+  ElapsedSeconds: number
+  FoundFiles: number
+  Error?: string
 }
 
 const groupedColumnHelper = createColumnHelper<GroupedVersion>()
@@ -46,6 +59,46 @@ export function DeployVersionsTab(): React.ReactNode {
     enabled: !!client,
     refetchInterval: 5_000
   })
+
+  // When the list is empty it can mean "nothing to deploy" — but also that the
+  // Broadcaster has no access to the remote SFTP software server (the API returns
+  // an empty list in both cases). Probe the SFTP sub-resources to tell them apart.
+  const listEmpty = !isLoading && !error && (data?.length ?? 0) === 0
+
+  const sftpSettings = useQuery({
+    queryKey: ['sftp-settings', activeConnection?.id],
+    queryFn: async ({ signal }) => {
+      if (!client) throw new Error('No client')
+      return client.get<SftpSettingsRow>(
+        'Broadcaster.Deployment.RemoteFile.Settings',
+        undefined,
+        undefined,
+        signal
+      )
+    },
+    enabled: !!client && listEmpty,
+    staleTime: 60_000
+  })
+  const sftpConfigured = sftpSettings.data
+    ? sftpSettings.data.length > 0 && !!sftpSettings.data[0].Url
+    : undefined
+
+  const sftpCheck = useQuery({
+    queryKey: ['sftp-check', activeConnection?.id],
+    queryFn: async ({ signal }) => {
+      if (!client) throw new Error('No client')
+      return client.get<RebuildIndexRow>(
+        'Broadcaster.Deployment.RemoteFile.RebuildIndex',
+        undefined,
+        undefined,
+        signal
+      )
+    },
+    enabled: !!client && listEmpty && sftpConfigured === true,
+    staleTime: 300_000,
+    refetchOnWindowFocus: false
+  })
+  const sftpCheckResult = sftpCheck.data?.[0]
 
   const grouped = useMemo<GroupedVersion[]>(() => {
     if (!data) return []
@@ -167,10 +220,42 @@ export function DeployVersionsTab(): React.ReactNode {
         </div>
       </div>
       <div className="min-h-0 flex-1 overflow-hidden px-6 pb-6">
-        <DashboardTable
-          data={grouped}
-          columns={deployColumns}
-        />
+        {grouped.length === 0 ? (
+          <div className="pt-2">
+            {sftpConfigured === false ? (
+              <div className="flex items-start gap-3 rounded-md border border-warning bg-warning/10 p-4 text-sm text-warning">
+                <AlertTriangle size={16} className="mt-0.5 shrink-0" />
+                <span>{t('deployVersions.sftpNotConfigured')}</span>
+              </div>
+            ) : sftpCheckResult && !sftpCheckResult.Success ? (
+              <div className="flex items-start gap-3 rounded-md border border-warning bg-warning/10 p-4 text-sm text-warning">
+                <AlertTriangle size={16} className="mt-0.5 shrink-0" />
+                <div>
+                  <div className="font-medium">
+                    {t('deployVersions.sftpNoAccess', { url: sftpSettings.data?.[0]?.Url ?? '' })}
+                  </div>
+                  {sftpCheckResult.Error && (
+                    <div className="mt-1 font-mono text-xs">{sftpCheckResult.Error}</div>
+                  )}
+                </div>
+              </div>
+            ) : sftpSettings.isLoading || sftpCheck.isLoading ? (
+              <div className="flex items-center gap-3 rounded-md border border-border bg-surface p-4 text-sm text-muted">
+                {t('deployVersions.sftpChecking')}
+              </div>
+            ) : (
+              <div className="flex items-start gap-3 rounded-md border border-border bg-surface p-4 text-sm text-muted">
+                <Info size={16} className="mt-0.5 shrink-0" />
+                <span>{t('deployVersions.empty', { product })}</span>
+              </div>
+            )}
+          </div>
+        ) : (
+          <DashboardTable
+            data={grouped}
+            columns={deployColumns}
+          />
+        )}
       </div>
       <ConfirmDialog
         open={confirmVersion !== null}

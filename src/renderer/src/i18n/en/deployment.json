@@ -14,7 +14,7 @@
       "files": "Files"
     },
     "viewFiles": "View files",
-    "filesTitle": "{{product}} v{{version}} \u2014 Files",
+    "filesTitle": "{{product}} v{{version}} — Files",
     "error": "Failed to load deployment files",
     "cleanupTitle": "Delete Version",
     "deleteMessage": "Delete all {{product}} files for version {{version}}? This version is not in the launch schedule.",
@@ -28,12 +28,16 @@
     },
     "deploy": "Deploy",
     "viewFiles": "View files",
-    "filesTitle": "{{product}} v{{version}} \u2014 Files",
+    "filesTitle": "{{product}} v{{version}} — Files",
     "error": "Failed to load remote files",
     "deployError": "Deploy failed",
     "confirmTitle": "Deploy Version",
     "confirmMessage": "Deploy {{product}} version {{version}} to the broadcaster?",
-    "confirmDetail": "This will download and deploy the selected version files."
+    "confirmDetail": "This will download and deploy the selected version files.",
+    "sftpNotConfigured": "No SFTP software server is configured on the Broadcaster, so remote versions cannot be listed. Configure the SFTP Software Server under Settings → App Settings.",
+    "sftpNoAccess": "The Broadcaster cannot access the remote SFTP software server ({{url}}). Remote versions cannot be listed.",
+    "sftpChecking": "Checking access to the remote SFTP software server...",
+    "empty": "No undeployed {{product}} versions found on the remote SFTP server."
   },
   "launchSchedule": {
     "column": {
