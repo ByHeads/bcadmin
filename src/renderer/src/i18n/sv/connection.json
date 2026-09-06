@@ -45,7 +45,10 @@
   },
   "security": {
     "encryptionUnavailable": "Kryptering av autentiseringsuppgifter otillg\u00e4nglig",
-    "encryptionDetail": "API-nycklar lagras utan kryptering."
+    "encryptionDetail": "API-nycklar lagras utan kryptering.",
+    "encryptionDetailMac": "\u00c5tkomst till nyckelringen nekades eller \u00e4r otillg\u00e4nglig. Starta om appen och till\u00e5t \u00e5tkomst till nyckelringen f\u00f6r s\u00e4ker lagring.",
+    "encryptionDetailLinux": "Installera <pkg>libsecret</pkg> (t.ex. <pkg>gnome-keyring</pkg>) och starta om appen f\u00f6r s\u00e4ker lagring.",
+    "encryptionDetailGeneric": "Starta om appen f\u00f6r att aktivera s\u00e4ker lagring."
   },
   "thisComputer": "denna dator",
   "runningOnThisComputer": "K\u00f6r p\u00e5 denna dator",

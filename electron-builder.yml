@@ -50,8 +50,10 @@ win:
         - x64
   icon: build/icon.ico
   artifactName: "${productName}-${version}-setup.${ext}"
-  signingHashAlgorithms:
-    - sha256
+  # electron-builder 26 moved signtool settings under `signtoolOptions`.
+  signtoolOptions:
+    signingHashAlgorithms:
+      - sha256
 
 nsis:
   oneClick: false

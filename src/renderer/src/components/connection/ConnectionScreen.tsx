@@ -3,7 +3,7 @@ import {
   AlertTriangle, Plus, ChevronRight, CornerDownLeft, Loader2,
   MoreHorizontal, ArrowUp, ArrowDown, Trash2, LayoutGrid, List, Search, X, Pencil
 } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { useConnectionStore, normalizeUrl, testConnectionReachable, type ConnectionError } from '@/stores/connection'
 import { useThemeStore } from '@/stores/theme'
 import headsLogo from '@/assets/heads.svg'
@@ -15,6 +15,7 @@ import { VerifiedBadge } from '@/components/ui/VerifiedBadge'
 import type { SavedConnection } from '@shared/types'
 
 const isMac = window.api.platform === 'darwin'
+const isLinux = window.api.platform === 'linux'
 
 /** Extract a display name from a broadcaster URL */
 function inferNameFromUrl(raw: string): string | null {
@@ -914,11 +915,15 @@ export function ConnectionScreen(): React.ReactNode {
                 <div className="font-medium">{t('security.encryptionUnavailable')}</div>
                 <div className="mt-0.5 text-xs text-warning/80">
                   {t('security.encryptionDetail')}{' '}
-                  {navigator.platform?.includes('Mac')
-                    ? 'This is expected in development. Production builds use the macOS Keychain.'
-                    : <>Install <code className="rounded bg-warning/10 px-1">libsecret</code> (e.g.{' '}
-                      <code className="rounded bg-warning/10 px-1">gnome-keyring</code>) and restart
-                      the app for secure storage.</>}
+                  {isLinux ? (
+                    <Trans
+                      t={t}
+                      i18nKey="security.encryptionDetailLinux"
+                      components={{ pkg: <code className="rounded bg-warning/10 px-1" /> }}
+                    />
+                  ) : (
+                    t(isMac ? 'security.encryptionDetailMac' : 'security.encryptionDetailGeneric')
+                  )}
                 </div>
               </div>
             </div>

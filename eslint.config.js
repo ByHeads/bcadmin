@@ -15,7 +15,15 @@ export default tseslint.config(
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }]
+      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+      // eslint-plugin-react-hooks v7 turns on the React Compiler rules, which flag
+      // pre-existing patterns across the renderer (Math.random() in useMemo,
+      // setState inside effects, ...). Surfaced as warnings for now so they stay
+      // visible without failing lint; see the upgrade notes for the backlog.
+      'react-hooks/purity': 'warn',
+      'react-hooks/set-state-in-effect': 'warn',
+      'react-hooks/refs': 'warn',
+      'react-hooks/preserve-manual-memoization': 'warn'
     }
   },
   {

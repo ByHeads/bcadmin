@@ -40,8 +40,8 @@ API keys are stored securely in the OS keychain (macOS Keychain, Windows Credent
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) >= 18
-- npm >= 9
+- [Node.js](https://nodejs.org/) >= 24 (LTS, see `.nvmrc`)
+- npm >= 11
 
 ### Setup
 

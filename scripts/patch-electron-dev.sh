@@ -6,11 +6,23 @@
 
 set -e
 
+# macOS-only: plutil and codesign are not available elsewhere.
+if [ "$(uname)" != "Darwin" ]; then
+  exit 0
+fi
+
 DIST_DIR="node_modules/electron/dist"
 OLD_APP="$DIST_DIR/Electron.app"
 APP_NAME="Broadcaster Administrator"
 NEW_APP="$DIST_DIR/$APP_NAME.app"
 PATH_FILE="node_modules/electron/path.txt"
+
+# Electron >= 44 dropped its postinstall hook and downloads the binary lazily on
+# the first require('electron'), so dist/ does not exist yet at postinstall time.
+# Fetch it up front, otherwise there is nothing here to patch.
+if [ ! -d "$OLD_APP" ] && [ ! -d "$NEW_APP" ] && [ -f node_modules/electron/install.js ]; then
+  node node_modules/electron/install.js
+fi
 
 if [ ! -d "$OLD_APP" ] && [ ! -d "$NEW_APP" ]; then
   exit 0

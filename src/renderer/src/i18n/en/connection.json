@@ -45,7 +45,10 @@
   },
   "security": {
     "encryptionUnavailable": "Credential encryption unavailable",
-    "encryptionDetail": "API keys will be stored without encryption."
+    "encryptionDetail": "API keys will be stored without encryption.",
+    "encryptionDetailMac": "Keychain access was denied or is unavailable. Restart the app and allow Keychain access to enable secure storage.",
+    "encryptionDetailLinux": "Install <pkg>libsecret</pkg> (e.g. <pkg>gnome-keyring</pkg>) and restart the app for secure storage.",
+    "encryptionDetailGeneric": "Restart the app to enable secure storage."
   },
   "thisComputer": "this computer",
   "runningOnThisComputer": "Running on this computer",
