@@ -10,8 +10,21 @@ export default function App(): React.ReactNode {
   const prevConnectionIdRef = useRef<string | null>(null)
 
   useEffect(() => {
-    loadConnections()
-  }, [loadConnections])
+    // After a restart as administrator, go back to where the user was
+    async function start(): Promise<void> {
+      await loadConnections()
+      const intent = await window.api.takeLaunchIntent()
+      if (!intent) return
+      const { connections, connect } = useConnectionStore.getState()
+      const connection = connections.find((c) => c.id === intent.connectionId)
+      if (!connection) return
+      await connect(connection)
+      if (useConnectionStore.getState().status === 'connected') {
+        navigate(intent.route, { replace: true })
+      }
+    }
+    start()
+  }, [loadConnections, navigate])
 
   // Reset to overview when switching to a different connection
   useEffect(() => {

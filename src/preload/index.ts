@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron'
-import type { SavedConnection } from '@shared/types'
+import type { SavedConnection, LaunchIntent } from '@shared/types'
 
 const api = {
   // Platform info
@@ -61,6 +61,15 @@ const api = {
     ipcRenderer.invoke('file:readJson', filePath),
   writeJsonFile: (filePath: string, data: unknown): Promise<void> =>
     ipcRenderer.invoke('file:writeJson', filePath, data),
+  isFileWritable: (filePath: string): Promise<boolean> =>
+    ipcRenderer.invoke('file:isWritable', filePath),
+
+  // Elevation (Windows)
+  canElevate: (): Promise<boolean> => ipcRenderer.invoke('app:canElevate'),
+  relaunchElevated: (intent?: LaunchIntent): Promise<boolean> =>
+    ipcRenderer.invoke('app:relaunchElevated', intent),
+  takeLaunchIntent: (): Promise<LaunchIntent | null> =>
+    ipcRenderer.invoke('app:takeLaunchIntent'),
 
   // File save
   saveToDownloads: (filename: string, content: string): Promise<string | null> =>

@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { ChevronDown, Save, RotateCcw, AlertTriangle, CheckCircle, Loader2, FolderOpen, Plus, Trash2, Pencil, Eye, EyeOff, X, Copy, Check, Plug } from 'lucide-react'
+import { useLocation } from 'react-router-dom'
+import { ChevronDown, Save, RotateCcw, AlertTriangle, CheckCircle, Loader2, FolderOpen, Plus, Trash2, Pencil, Eye, EyeOff, X, Copy, Check, Plug, ShieldAlert } from 'lucide-react'
 import { ResourceListInput, MethodSelector } from './ResourceInput'
 import { useConnectionStore } from '@/stores/connection'
 
@@ -644,6 +645,10 @@ export function AppSettingsTab(): React.ReactNode {
   const [apiKeysError, setApiKeysError] = useState('')
   const [retailCheck, setRetailCheck] = useState<'idle' | 'checking' | 'success' | 'error'>('idle')
   const [retailCheckMsg, setRetailCheckMsg] = useState('')
+  const [readOnly, setReadOnly] = useState(false)
+  const [canElevate, setCanElevate] = useState(false)
+  const [elevation, setElevation] = useState<'idle' | 'waiting' | 'declined'>('idle')
+  const location = useLocation()
   const appDirRef = useRef('')
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
@@ -685,6 +690,7 @@ export function AppSettingsTab(): React.ReactNode {
           setSettings(deepClone(s))
           setApiKeysJson(JSON.stringify(s.Authentication?.ApiKeys ?? [], null, 2))
           setFileError('')
+          setReadOnly(!(await window.api.isFileWritable(filePath)))
           return
         } catch { /* try next */ }
       }
@@ -692,6 +698,10 @@ export function AppSettingsTab(): React.ReactNode {
     }
     tryLoad()
   }, [appDir?.Path])
+
+  useEffect(() => {
+    window.api.canElevate().then(setCanElevate)
+  }, [])
 
   // Cleanup polling on unmount
   useEffect(() => {
@@ -784,6 +794,21 @@ export function AppSettingsTab(): React.ReactNode {
     }, 2000)
   }, [client, setSuppressConnectionDrop, t])
 
+  const handleElevate = useCallback(async () => {
+    if (!activeConnection) return
+    setElevation('waiting')
+    try {
+      // On success the app quits, so there is nothing left to update here
+      const started = await window.api.relaunchElevated({
+        connectionId: activeConnection.id,
+        route: location.pathname
+      })
+      if (!started) setElevation('declined')
+    } catch {
+      setElevation('declined')
+    }
+  }, [activeConnection, location.pathname])
+
   const handleDiscard = useCallback(() => {
     if (original) {
       setSettings(deepClone(original))
@@ -846,6 +871,39 @@ export function AppSettingsTab(): React.ReactNode {
   return (
     <div className="p-6">
       <div className="max-w-2xl space-y-3">
+        {/* Read-only notice */}
+        {readOnly && (
+          <div className="rounded-lg border border-warning/30 bg-warning/10 p-4">
+            <div className="flex items-start gap-2">
+              <ShieldAlert size={18} className="mt-0.5 shrink-0 text-warning" />
+              <div>
+                <div className="font-medium text-foreground">
+                  {canElevate ? t('appSettings.adminRequiredTitle') : t('appSettings.readOnlyTitle')}
+                </div>
+                <div className="mt-1 text-sm text-muted">
+                  {canElevate ? t('appSettings.adminRequiredMessage') : t('appSettings.readOnlyMessage')}
+                  {canElevate && isDirty && <> {t('appSettings.adminRequiredUnsaved')}</>}
+                </div>
+                {canElevate && (
+                  <div className="mt-3 flex items-center gap-3">
+                    <button
+                      onClick={handleElevate}
+                      disabled={elevation === 'waiting'}
+                      className="flex items-center gap-2 rounded-md bg-accent px-4 pt-[5px] pb-[7px] text-sm font-medium text-white hover:bg-accent/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {elevation === 'waiting' && <Loader2 size={14} className="animate-spin" />}
+                      {t('appSettings.restartAsAdmin')}
+                    </button>
+                    {elevation === 'declined' && (
+                      <span className="text-sm text-error">{t('appSettings.elevationDeclined')}</span>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* General */}
         <Section title={t('appSettings.section.general')} defaultOpen>
           <TextField label="Urls" value={settings.Urls ?? ''} onChange={(v) => update('Urls', v)} />
@@ -957,7 +1015,7 @@ export function AppSettingsTab(): React.ReactNode {
         <div className="flex items-center gap-3 pt-2">
           <button
             onClick={handleSave}
-            disabled={!isDirty || phase === 'saving' || !!apiKeysError}
+            disabled={!isDirty || phase === 'saving' || !!apiKeysError || readOnly}
             className="flex items-center gap-2 rounded-md bg-accent px-4 pt-[7px] pb-[9px] text-sm font-medium text-white hover:bg-accent/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Save size={14} />

@@ -1,6 +1,6 @@
 import { ipcMain, dialog, app, nativeTheme, BrowserWindow } from 'electron'
 import { dirname, join } from 'path'
-import { readFile, writeFile, access } from 'fs/promises'
+import { readFile, writeFile, access, open } from 'fs/promises'
 import { exec as execCb } from 'child_process'
 import { promisify } from 'util'
 import { hostname } from 'os'
@@ -9,6 +9,7 @@ const execAsync = promisify(execCb)
 import { getCredential, setCredential, deleteCredential, isEncryptionAvailable } from './keychain'
 import { getConnections, saveConnection, deleteConnection, reorderConnections } from './connections'
 import { findWindowsBroadcasterExe } from './local-broadcaster'
+import { canElevate, relaunchElevated, takeLaunchIntent, parseLaunchIntent } from './elevation'
 import type { SavedConnection } from '@shared/types'
 
 function assertString(value: unknown, name: string): asserts value is string {
@@ -130,6 +131,31 @@ export function registerIpcHandlers(): void {
     assertString(filePath, 'filePath')
     if (typeof data !== 'object' || data === null) throw new Error('Invalid data: expected object')
     await writeFile(filePath, JSON.stringify(data, null, 2) + '\n', 'utf-8')
+  })
+
+  // Opening for write is the only reliable check on Windows, where access() ignores ACLs
+  ipcMain.handle('file:isWritable', async (_event, filePath: unknown) => {
+    assertString(filePath, 'filePath')
+    try {
+      const handle = await open(filePath, 'r+')
+      await handle.close()
+      return true
+    } catch {
+      return false
+    }
+  })
+
+  // Elevation (Windows)
+  ipcMain.handle('app:canElevate', () => {
+    return canElevate()
+  })
+
+  ipcMain.handle('app:relaunchElevated', (_event, intent: unknown) => {
+    return relaunchElevated(parseLaunchIntent(intent))
+  })
+
+  ipcMain.handle('app:takeLaunchIntent', () => {
+    return takeLaunchIntent()
   })
 
   // Detect local Broadcaster by finding the running process and reading its appsettings.json
