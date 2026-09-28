@@ -8,6 +8,7 @@ import { hostname } from 'os'
 const execAsync = promisify(execCb)
 import { getCredential, setCredential, deleteCredential, isEncryptionAvailable } from './keychain'
 import { getConnections, saveConnection, deleteConnection, reorderConnections } from './connections'
+import { findWindowsBroadcasterExe } from './local-broadcaster'
 import type { SavedConnection } from '@shared/types'
 
 function assertString(value: unknown, name: string): asserts value is string {
@@ -138,13 +139,8 @@ export function registerIpcHandlers(): void {
       let appDir: string | null = null
 
       if (process.platform === 'win32') {
-        // Query for Broadcaster process executable path via wmic
-        const { stdout } = await execAsync(
-          'wmic process where "name like \'Broadcaster%\'" get ExecutablePath /value',
-          { timeout: 5000 }
-        )
-        const match = stdout.match(/ExecutablePath=(.+)/)
-        if (match) appDir = dirname(match[1].trim())
+        const exePath = await findWindowsBroadcasterExe()
+        if (exePath) appDir = dirname(exePath)
       } else {
         // macOS/Linux: find Broadcaster in process list
         const { stdout } = await execAsync('ps -axo command', { timeout: 5000 })
