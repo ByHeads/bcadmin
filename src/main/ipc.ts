@@ -9,6 +9,7 @@ const execAsync = promisify(execCb)
 import { getCredential, setCredential, deleteCredential, isEncryptionAvailable } from './keychain'
 import { getConnections, saveConnection, deleteConnection, reorderConnections } from './connections'
 import { findWindowsBroadcasterExe } from './local-broadcaster'
+import { pickMostPermissiveKey, type ApiKeyEntry } from './api-keys'
 import { canElevate, relaunchElevated, takeLaunchIntent, parseLaunchIntent } from './elevation'
 import type { SavedConnection } from '@shared/types'
 
@@ -210,27 +211,8 @@ export function registerIpcHandlers(): void {
           const urls: string | undefined = settings.Urls
           if (!urls) continue
 
-          const apiKeys: Array<{
-            ApiKey?: string
-            AllowAccess?: Array<{ Resources?: string[]; Methods?: string[] }>
-          }> = settings.Authentication?.ApiKeys ?? []
-
-          // Find most permissive key: prefer wildcard methods, then most resource patterns
-          let bestKey = ''
-          let bestScore = -1
-          for (const entry of apiKeys) {
-            if (!entry.ApiKey) continue
-            let score = 0
-            for (const ac of entry.AllowAccess ?? []) {
-              const methodWeight = ac.Methods?.includes('*') ? 10 : (ac.Methods?.length ?? 0)
-              score += (ac.Resources?.length ?? 0) * methodWeight
-            }
-            if (score > bestScore) {
-              bestScore = score
-              bestKey = entry.ApiKey
-            }
-          }
-
+          const apiKeys: ApiKeyEntry[] = settings.Authentication?.ApiKeys ?? []
+          const bestKey = pickMostPermissiveKey(apiKeys)
           if (!bestKey) continue
 
           // Resolve "http://*:8101" → "http://localhost:8101/api"

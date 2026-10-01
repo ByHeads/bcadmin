@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { Plus, X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import bcResources from '@/assets/bc-resources.json'
+import bcResources from '@shared/bc-resources.json'
 
 const ALL_NAMES = [
   ...bcResources.wildcards,
