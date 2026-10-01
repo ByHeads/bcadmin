@@ -95,6 +95,7 @@
   },
   "error": {
     "generic": "Kunde inte ladda data",
+    "missingAccess": "API-nyckeln som anv\u00e4nds f\u00f6r den h\u00e4r anslutningen saknar \u00e5tkomst till: {{access}}",
     "unexpected": "Ett ov\u00e4ntat fel intr\u00e4ffade"
   },
   "errorBoundary": {

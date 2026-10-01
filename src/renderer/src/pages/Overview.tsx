@@ -11,6 +11,8 @@ interface OverviewData {
   notificationCount: number
   receiverCount: number
   replicationFilter?: unknown
+  /** Set when part of the overview could not be loaded */
+  warning?: string
 }
 
 function parseOverviewResult(result: Record<string, unknown>): OverviewData {
@@ -45,7 +47,8 @@ export function OverviewPage(): React.ReactNode {
     queryFn: async ({ signal }) => {
       if (!client) throw new Error('No client')
 
-      const result = await client.aggregate(
+      // Show what the API key has access to, and say what it lacks
+      const { data: result, error: partialError } = await client.aggregateSettled(
         {
           config:
             'GET /Broadcaster.Admin.Config/_/select=Version,ComputerName&rename=General.CurrentVersion->Version',
@@ -58,7 +61,7 @@ export function OverviewPage(): React.ReactNode {
         signal
       )
 
-      return parseOverviewResult(result)
+      return { ...parseOverviewResult(result), warning: partialError?.message }
     },
     enabled: !!client,
     staleTime: 30_000
@@ -83,6 +86,12 @@ export function OverviewPage(): React.ReactNode {
   return (
     <div className="px-6 pb-6">
       <h1 className="text-xl font-bold text-foreground">{t('title')}</h1>
+
+      {data?.warning && (
+        <div className="mt-4 rounded-lg border border-warning/30 bg-warning/10 p-4 text-sm text-foreground">
+          {data.warning}
+        </div>
+      )}
 
       <div className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-3">
         <Card label={t('card.broadcaster')} value={activeConnection?.url ?? ''} />

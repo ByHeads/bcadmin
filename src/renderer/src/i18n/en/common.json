@@ -95,6 +95,7 @@
   },
   "error": {
     "generic": "Failed to load data",
+    "missingAccess": "The API key used for this connection is missing access to: {{access}}",
     "unexpected": "An unexpected error occurred"
   },
   "errorBoundary": {
