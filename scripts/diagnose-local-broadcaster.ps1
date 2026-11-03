@@ -36,8 +36,12 @@ param(
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
 
-# Kept identical to src/main/ipc.ts
-$wmicCommand = 'wmic process where "name like ''Broadcaster%''" get ExecutablePath /value'
+# Kept identical to src/main/local-broadcaster.ts
+$psQuery = '[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; $p = @(Get-CimInstance Win32_Process -Filter "Name LIKE ''Broadcaster%''" | Select-Object Name, ProcessId, ExecutablePath); $ids = @($p | ForEach-Object { $_.ProcessId }); $s = @(Get-CimInstance Win32_Service | Where-Object { $ids -contains $_.ProcessId } | Select-Object ProcessId, PathName); [pscustomobject]@{ processes = $p; services = $s } | ConvertTo-Json -Compress -Depth 3'
+$psArguments = '-NoProfile -NonInteractive -ExecutionPolicy Bypass -EncodedCommand'
+$psTimeoutMs = 15000
+# The fallback the app uses when the PowerShell query fails; wmic is gone from Windows 11 24H2 onwards
+$wmicCommand = 'wmic process where "name like ''Broadcaster%''" get ExecutablePath,Name,ProcessId /value'
 $wmicTimeoutMs = 5000
 $settingsNames = @('appsettings.json', 'appsettings.Development.json')
 $maxWalkLevels = 5
@@ -96,8 +100,15 @@ function Get-JsonValue($Object, [string]$Name) {
     return $null
 }
 
-# Runs the app's query the way Node's child_process.exec does: through cmd.exe, output decoded as UTF-8
-function Invoke-AppProcessQuery {
+# Executable from a service PathName, the way the app reads it: "E:\bc\bin\Broadcaster.exe" "E:\bc" -> E:\bc\bin\Broadcaster.exe
+function Get-ServiceExecutable([string]$PathName) {
+    if ($PathName -match '^"([^"]+)"') { return $Matches[1] }
+    if ($PathName -match '^(.+?\.exe)(?=\s|$)') { return $Matches[1] }
+    return $null
+}
+
+# Runs a query the way Node's child_process does: no window, output decoded as UTF-8
+function Invoke-AppQuery([string]$FileName, [string]$Arguments, [int]$TimeoutMs) {
     $result = [pscustomobject]@{
         TimedOut  = $false
         ExitCode  = $null
@@ -108,8 +119,8 @@ function Invoke-AppProcessQuery {
     }
 
     $startInfo = New-Object System.Diagnostics.ProcessStartInfo
-    $startInfo.FileName = $env:ComSpec
-    $startInfo.Arguments = '/d /s /c "' + $wmicCommand + '"'
+    $startInfo.FileName = $FileName
+    $startInfo.Arguments = $Arguments
     $startInfo.UseShellExecute = $false
     $startInfo.CreateNoWindow = $true
     $startInfo.RedirectStandardInput = $true
@@ -123,7 +134,7 @@ function Invoke-AppProcessQuery {
         $process = [System.Diagnostics.Process]::Start($startInfo)
         $outTask = $process.StandardOutput.ReadToEndAsync()
         $errTask = $process.StandardError.ReadToEndAsync()
-        if ($process.WaitForExit($wmicTimeoutMs)) {
+        if ($process.WaitForExit($TimeoutMs)) {
             $process.WaitForExit()
             $result.ExitCode = $process.ExitCode
             $result.StdOut = $outTask.Result
@@ -138,6 +149,28 @@ function Invoke-AppProcessQuery {
     $watch.Stop()
     $result.ElapsedMs = $watch.ElapsedMilliseconds
     return $result
+}
+
+# Reports how a query went; returns $true when the app would read its output
+function Test-QueryResult($Query, [int]$TimeoutMs, [string]$FallbackNote) {
+    if ($Query.Error) {
+        Write-Result FAIL "The query could not be started: $($Query.Error)$FallbackNote"
+        return $false
+    }
+    if ($Query.TimedOut) {
+        Write-Result FAIL "The query did not finish within $TimeoutMs ms$FallbackNote"
+        return $false
+    }
+    if ($Query.ExitCode -ne 0) {
+        Write-Result FAIL "The query exited with code $($Query.ExitCode): $($Query.StdErr.Trim())$FallbackNote"
+        return $false
+    }
+    Write-Result OK "The query finished in $($Query.ElapsedMs) ms"
+    if ($Query.ElapsedMs -gt ($TimeoutMs / 2)) {
+        Write-Result WARN "The query took $($Query.ElapsedMs) ms, close to the app's $TimeoutMs ms timeout"
+    }
+    if ($Query.StdErr.Trim()) { Write-Result INFO "stderr: $($Query.StdErr.Trim())" }
+    return $true
 }
 
 # Same walk as the app: the start directory plus its parents, five directories in total
@@ -492,57 +525,101 @@ $adminRunning = $false
 if ($AppDir) {
     Write-Result INFO "Process detection skipped, starting in $AppDir"
     $appPick = $AppDir
-} else {
     Write-Section 'Step 1: the process query the app runs'
-    Write-Result INFO $wmicCommand
+    Write-Result INFO "powershell.exe $psArguments <base64 of the query below>"
+    Write-Result INFO $psQuery
 
-    if (-not (Get-Command wmic.exe -ErrorAction SilentlyContinue)) {
-        Write-Result FAIL 'wmic.exe is not installed or not on PATH' -Blocks
-    }
-
-    $query = Invoke-AppProcessQuery
-    $wmicPaths = @()
+    # $picked is the path the app ends up with; $queryFailed means neither query produced output the app could read
+    $picked = $null
     $queryFailed = $true
-    if ($query.Error) {
-        Write-Result FAIL "The query could not be started: $($query.Error)" -Blocks
-    } elseif ($query.TimedOut) {
-        Write-Result FAIL "The query did not finish within $wmicTimeoutMs ms, the app gives up at that point" -Blocks
-    } elseif ($query.ExitCode -ne 0) {
-        Write-Result FAIL "The query exited with code $($query.ExitCode): $($query.StdErr.Trim())" -Blocks
+    $fallbackNote = '; the app falls back to wmic'
+
+    if (-not (Get-Command powershell.exe -ErrorAction SilentlyContinue)) {
+        Write-Result FAIL "powershell.exe is not on PATH$fallbackNote"
     } else {
-        $queryFailed = $false
-        Write-Result OK "The query finished in $($query.ElapsedMs) ms"
-        if ($query.ElapsedMs -gt ($wmicTimeoutMs / 2)) {
-            Write-Result WARN "The query took $($query.ElapsedMs) ms, close to the app's $wmicTimeoutMs ms timeout"
-        }
-        if ($query.StdErr.Trim()) { Write-Result INFO "stderr: $($query.StdErr.Trim())" }
-
-        # JavaScript's '.' stops at line terminators, so empty ExecutablePath lines never match
-        $wmicPaths = @([regex]::Matches($query.StdOut, 'ExecutablePath=([^\r\n\u2028\u2029]+)') |
-                ForEach-Object { $_.Groups[1].Value.Trim() })
-        $position = 0
-        foreach ($path in $wmicPaths) {
-            $position++
-            Write-Result INFO "Match ${position}: $path"
-        }
-
-        if ($wmicPaths.Count -eq 0) {
-            Write-Result INFO 'The query returned no executable path'
-        } else {
-            $picked = $wmicPaths[0]
-            $appPick = [System.IO.Path]::GetDirectoryName($picked)
-            if ([System.IO.Path]::GetFileName($picked) -ieq $adminExeName) {
-                Write-Result FAIL "The app picks the first match, which is Broadcaster Administrator itself: $picked" -Blocks
+        $encoded = [Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes($psQuery))
+        $query = Invoke-AppQuery 'powershell.exe' "$psArguments $encoded" $psTimeoutMs
+        if (Test-QueryResult $query $psTimeoutMs $fallbackNote) {
+            $jsonStart = $query.StdOut.IndexOf('{')
+            $data = $null
+            if ($jsonStart -lt 0) {
+                Write-Result FAIL "The query returned no JSON$fallbackNote"
             } else {
-                Write-Result OK "The app picks the first match: $picked"
+                try { $data = $query.StdOut.Substring($jsonStart) | ConvertFrom-Json } catch {
+                    Write-Result FAIL "The query's output is not valid JSON: $($_.Exception.Message)$fallbackNote"
+                }
             }
-            if ($picked -match '[^\x20-\x7E]') {
-                Write-Result WARN 'The path has non-ASCII characters; wmic writes its console code page and the app decodes UTF-8, so the path may be garbled'
+            if ($data) {
+                $queryFailed = $false
+                $queryProcesses = @($data.processes | Where-Object { $_.Name -and $_.Name -ine $adminExeName })
+                $queryServices = @($data.services)
+                foreach ($process in $queryProcesses) {
+                    if ($process.ExecutablePath) {
+                        Write-Result INFO "PID $($process.ProcessId) $($process.Name): $($process.ExecutablePath)"
+                    } else {
+                        $service = $queryServices | Where-Object { "$($_.ProcessId)" -eq "$($process.ProcessId)" } | Select-Object -First 1
+                        if ($service) {
+                            Write-Result INFO "PID $($process.ProcessId) $($process.Name): path hidden, registered as a service with $($service.PathName)"
+                        } else {
+                            Write-Result INFO "PID $($process.ProcessId) $($process.Name): path hidden, not registered as a service"
+                        }
+                    }
+                }
+                $visible = $queryProcesses | Where-Object { $_.ExecutablePath } | Select-Object -First 1
+                if ($visible) {
+                    $picked = $visible.ExecutablePath
+                } else {
+                    foreach ($process in $queryProcesses) {
+                        $service = $queryServices | Where-Object { "$($_.ProcessId)" -eq "$($process.ProcessId)" } | Select-Object -First 1
+                        if ($service) { $picked = Get-ServiceExecutable $service.PathName }
+                        if ($picked) { break }
+                    }
+                }
             }
         }
     }
 
-    Write-Section 'Step 2: what is actually running'
+    if ($queryFailed) {
+        Write-Section 'Step 1b: the wmic fallback'
+        Write-Result INFO $wmicCommand
+        if (-not (Get-Command wmic.exe -ErrorAction SilentlyContinue)) {
+            Write-Result FAIL 'wmic.exe is not installed or not on PATH (it is gone from Windows 11 24H2 onwards)' -Blocks
+        } else {
+            $query = Invoke-AppQuery $env:ComSpec ('/d /s /c "' + $wmicCommand + '"') $wmicTimeoutMs
+            if (Test-QueryResult $query $wmicTimeoutMs ', the app gives up at that point') {
+                $queryFailed = $false
+                # JavaScript's '.' stops at line terminators, so empty ExecutablePath lines never match
+                $wmicPaths = @([regex]::Matches($query.StdOut, 'ExecutablePath=([^\r\n\u2028\u2029]+)') |
+                        ForEach-Object { $_.Groups[1].Value.Trim() } |
+                        Where-Object { [System.IO.Path]::GetFileName($_) -ine $adminExeName })
+                foreach ($path in $wmicPaths) { Write-Result INFO "Match: $path" }
+                if ($wmicPaths.Count -gt 0) {
+                    $picked = $wmicPaths[0]
+                } else {
+                    $wmicPids = @([regex]::Matches($query.StdOut, 'ProcessId=(\d+)') | ForEach-Object { $_.Groups[1].Value })
+                    foreach ($wmicPid in $wmicPids) {
+                        $serviceQuery = Invoke-AppQuery $env:ComSpec ('/d /s /c "wmic service where "ProcessId=' + $wmicPid + '" get PathName /value"') $wmicTimeoutMs
+                        if ($serviceQuery.ExitCode -eq 0 -and $serviceQuery.StdOut -match 'PathName=([^\r\n]+)') {
+                            $picked = Get-ServiceExecutable $Matches[1].Trim()
+                        }
+                        if ($picked) { break }
+                    }
+                }
+            } else {
+                $script:blocker = $script:findings[-1].Message
+            }
+        }
+    }
+
+    if ($picked) {
+        $appPick = [System.IO.Path]::GetDirectoryName($picked)
+        Write-Result OK "The app picks: $picked"
+        if ($picked -match '[^\x20-\x7E]') {
+            Write-Result WARN 'The path has non-ASCII characters; check that it is not garbled above'
+        }
+    } elseif (-not $queryFailed) {
+        Write-Result INFO 'The query returned no usable executable path'
+    }
     $processes = @()
     $cimFailed = $false
     try {
@@ -566,7 +643,7 @@ if ($AppDir) {
             $realDirs += [System.IO.Path]::GetDirectoryName($process.ExecutablePath)
             $realPids += [int]$process.ProcessId
         } else {
-            Write-Result FAIL "PID $($process.ProcessId) $($process.Name) ($owner) hides its executable path from this user"
+            Write-Result WARN "PID $($process.ProcessId) $($process.Name) ($owner) hides its executable path from this user; the app relies on its service registration"
             $realPids += [int]$process.ProcessId
         }
     }
@@ -598,20 +675,24 @@ if ($AppDir) {
     } catch { }
     foreach ($service in $services) {
         Write-Result INFO "Service '$($service.Name)' is $($service.State), runs as $($service.StartName): $($service.PathName)"
+        $serviceExe = Get-ServiceExecutable $service.PathName
+        if ($serviceExe -and $realPids -contains [int]$service.ProcessId) {
+            $realDirs += [System.IO.Path]::GetDirectoryName($serviceExe)
+        }
     }
 
     if ($cimFailed) {
-        if (-not $queryFailed -and $wmicPaths.Count -eq 0) {
-            Write-Result FAIL 'The query returned no executable path' -Blocks
+        if (-not $queryFailed -and -not $appPick) {
+            Write-Result FAIL 'The query returned no usable executable path' -Blocks
         }
     } elseif ($realProcesses.Count -eq 0 -and $dotnetHosted.Count -eq 0) {
         Write-Result FAIL 'No Broadcaster process is running on this machine' -Blocks
     } elseif ($realProcesses.Count -eq 0) {
         Write-Result FAIL 'The Broadcaster runs inside dotnet.exe, which the app cannot find' -Blocks
     } elseif ($realDirs.Count -eq 0) {
-        Write-Result FAIL 'A Broadcaster is running, but its executable path is not visible to this user' -Blocks
-    } elseif (-not $queryFailed -and $wmicPaths.Count -eq 0) {
-        Write-Result FAIL 'A Broadcaster is running and visible through CIM, but the wmic query did not return it' -Blocks
+        Write-Result FAIL 'A Broadcaster is running, but its executable path is not visible to this user and it is not registered as a service' -Blocks
+    } elseif (-not $queryFailed -and -not $appPick) {
+        Write-Result FAIL "A Broadcaster is running and visible through CIM, but the app's query did not return it" -Blocks
     }
 }
 
