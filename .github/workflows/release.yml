@@ -9,7 +9,21 @@ permissions:
   contents: write
 
 jobs:
+  # One draft up front, so the three platform builds upload into the same release
+  # instead of each creating their own when they start at the same second
+  draft:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create draft release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if ! gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            gh release create "$GITHUB_REF_NAME" --draft --title "${GITHUB_REF_NAME#v}" --repo "$GITHUB_REPOSITORY"
+          fi
+
   release:
+    needs: draft
     strategy:
       fail-fast: false
       matrix:
