@@ -103,6 +103,8 @@
     },
     "addField": "L\u00e4gg till ett f\u00e4lt",
     "checkRetailConnection": "Kontrollera anslutning",
+    "checkRetailUnsaved": "Spara för att kontrollera med de nya inställningarna",
+    "checkedSavedUrl": "(sparade inställningar, {{url}})",
     "addResources": "L\u00e4gg till resurser",
     "allMethods": "Alla metoder",
     "allMethodsShort": "Alla",

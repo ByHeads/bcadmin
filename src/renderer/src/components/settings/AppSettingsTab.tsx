@@ -714,6 +714,9 @@ export function AppSettingsTab(): React.ReactNode {
   const isDirty = settings && original && !deepEqual(settings, original)
   const replicationPathChanged = settings && original &&
     settings.Replication?.ReplicationSourceDirectoryPath !== original.Replication?.ReplicationSourceDirectoryPath
+  // The Broadcaster checks the connection with its saved settings, not with what the form holds
+  const retailDirty = !!settings && !!original && !deepEqual(settings.RetailConnection, original.RetailConnection)
+  const savedRetailUrl = original?.RetailConnection?.Url?.trim() ?? ''
 
   const update = useCallback((path: string, value: unknown) => {
     setSettings((prev) => prev ? setPath(prev as Record<string, unknown>, path, value) as AppSettings : prev)
@@ -818,7 +821,7 @@ export function AppSettingsTab(): React.ReactNode {
   }, [original])
 
   const handleCheckRetail = useCallback(async () => {
-    if (!client) return
+    if (!client || retailDirty) return
     setRetailCheck('checking')
     setRetailCheckMsg('')
     try {
@@ -834,7 +837,7 @@ export function AppSettingsTab(): React.ReactNode {
       setRetailCheckMsg(err instanceof Error ? err.message : String(err))
       setTimeout(() => setRetailCheck('idle'), 8000)
     }
-  }, [client])
+  }, [client, retailDirty])
 
   // --- Loading / error states ---
 
@@ -918,16 +921,20 @@ export function AppSettingsTab(): React.ReactNode {
           <BoolField label="ConnectToRetail" value={settings.RetailConnection?.ConnectToRetail ?? false} onChange={(v) => update('RetailConnection.ConnectToRetail', v)} />
           <ExtraFields section="RetailConnection" settings={settings as Record<string, unknown>} update={update} />
           <div className="pt-2">
-            <button
-              type="button"
-              onClick={handleCheckRetail}
-              disabled={retailCheck === 'checking'}
-              className="flex items-center gap-2 rounded-md border border-border px-3 py-1.5 text-xs text-muted transition-colors hover:text-foreground disabled:opacity-50"
-            >
-              {retailCheck === 'checking' ? <Loader2 size={13} className="animate-spin" /> : <Plug size={13} />}
-              {t('appSettings.checkRetailConnection')}
-            </button>
-            {retailCheck !== 'idle' && retailCheck !== 'checking' && (() => {
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={handleCheckRetail}
+                disabled={retailCheck === 'checking' || retailDirty}
+                title={retailDirty ? t('appSettings.checkRetailUnsaved') : undefined}
+                className="flex items-center gap-2 rounded-md border border-border px-3 py-1.5 text-xs text-muted transition-colors hover:text-foreground disabled:opacity-50"
+              >
+                {retailCheck === 'checking' ? <Loader2 size={13} className="animate-spin" /> : <Plug size={13} />}
+                {t('appSettings.checkRetailConnection')}
+              </button>
+              {retailDirty && <span className="text-xs text-muted">{t('appSettings.checkRetailUnsaved')}</span>}
+            </div>
+            {retailCheck !== 'idle' && retailCheck !== 'checking' && !retailDirty && (() => {
               const statusKey = `appSettings.retailStatus.${retailCheckMsg}` as const
               const translated = t(statusKey, { defaultValue: retailCheckMsg })
               const isConnected = retailCheckMsg === 'Connected'
@@ -938,6 +945,9 @@ export function AppSettingsTab(): React.ReactNode {
                 <div className={`mt-2 flex items-center gap-1.5 text-xs ${colorClass}`}>
                   <Icon size={13} className="shrink-0" />
                   <span>{translated}</span>
+                  {savedRetailUrl && !isNotConfigured && (
+                    <span className="text-muted">{t('appSettings.checkedSavedUrl', { url: savedRetailUrl })}</span>
+                  )}
                 </div>
               )
             })()}

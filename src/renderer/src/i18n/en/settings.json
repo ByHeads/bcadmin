@@ -103,6 +103,8 @@
     },
     "addField": "Add a field",
     "checkRetailConnection": "Check connection",
+    "checkRetailUnsaved": "Save to check with the new settings",
+    "checkedSavedUrl": "(saved settings, {{url}})",
     "addResources": "Add resources",
     "allMethods": "All methods",
     "allMethodsShort": "All",
